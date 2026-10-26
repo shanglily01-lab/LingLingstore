@@ -76,37 +76,33 @@ export default function ProductDetailPage() {
         ← 返回商品列表
       </Link>
 
-      <div className="mt-8 grid gap-10 lg:grid-cols-2">
-        <ProductGallery images={product.images} alt={displayName || ''} />
+      <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <div className="rounded-sm bg-white p-3 md:p-4">
+          <ProductGallery images={product.images} alt={displayName || ''} />
+          <h1 className="mt-4 text-xl font-medium text-on-surface md:text-2xl">{displayName}</h1>
+          <p className="mt-3 text-sm leading-relaxed text-on-surface">{region === 'CN' ? product.descriptionCn : product.descriptionEn}</p>
+        </div>
 
-        <div>
-          <h1 className="text-2xl font-bold text-on-surface md:text-3xl">{displayName}</h1>
-          <p className="mt-2 text-sm text-on-surface-variant">SPU: {product.spuNo}</p>
-
+        <div className="h-fit rounded-sm border border-outline-variant bg-white p-4">
+          <p className="text-sm text-on-surface-variant">SPU {product.spuNo}</p>
           {listing && (
-            <p className={`mt-6 text-3xl ${price}`}>
+            <p className={`mt-2 text-3xl ${price}`}>
               {currency === 'CNY' ? '¥' : '$'}
               {(displayPrice / 100).toFixed(2)}
             </p>
           )}
-
-          <p className="mt-6 leading-relaxed text-on-surface-variant">
-            {region === 'CN' ? product.descriptionCn : product.descriptionEn}
-          </p>
-
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4 md:mt-10">
-            <button
-              type="button"
-              onClick={handleAddToCart}
-              disabled={adding || !listing}
-              className={btnPrimary + ' w-full px-8 py-3 sm:w-auto'}
-            >
-              {adding ? '添加中...' : '加入购物车'}
-            </button>
-            <Link href="/cart" className={btnSecondary + ' w-full px-8 py-3 sm:w-auto'}>
-              查看购物车
-            </Link>
-          </div>
+          <p className="mt-3 text-sm text-[#007600]">{listing ? '有货' : '暂不可购买'}</p>
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            disabled={adding || !listing}
+            className={btnPrimary + ' mt-4 w-full py-2'}
+          >
+            {adding ? '添加中...' : '加入购物车'}
+          </button>
+          <Link href="/cart" className={btnSecondary + ' mt-2 w-full py-2'}>
+            查看购物车
+          </Link>
         </div>
       </div>
     </PageShell>

@@ -48,6 +48,10 @@ apps/api/prisma/migrations/dev/
 coverage
 .nyc_output
 
+# uploaded product images
+apps/api/uploads/products/*
+!apps/api/uploads/products/.gitkeep
+
 # misc
 *.tgz
 .pnpm-debug.log

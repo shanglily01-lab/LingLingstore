@@ -1,28 +1,30 @@
 import type { Config } from 'tailwindcss'
 
-/** Design tokens from Google Stitch export (design-stitch/home.html) */
+/** Marketplace palette: gray page, teal links, yellow cart buttons. */
 const config: Config = {
   content: ['./src/app/**/*.{ts,tsx}', './src/components/**/*.{ts,tsx}', './src/lib/**/*.{ts,tsx}'],
   theme: {
     extend: {
       colors: {
-        surface: '#f8f9ff',
-        'on-surface': '#0b1c30',
-        'on-surface-variant': '#45464d',
-        'surface-container': '#e5eeff',
-        'surface-container-low': '#eff4ff',
-        'surface-container-high': '#dce9ff',
-        'outline-variant': '#c6c6cd',
-        secondary: '#4b41e1',
-        'secondary-container': '#645efb',
-        'primary-container': '#131b2e',
-        'on-primary-container': '#7c839b',
-        error: '#ba1a1a',
+        surface: '#eaeded',
+        'on-surface': '#0f1111',
+        'on-surface-variant': '#565959',
+        'surface-container': '#f0f2f2',
+        'surface-container-low': '#f7f8f8',
+        'surface-container-high': '#d5d9d9',
+        'outline-variant': '#d5d9d9',
+        secondary: '#007185',
+        'secondary-container': '#c7511f',
+        'primary-container': '#232f3e',
+        'on-primary-container': '#cccccc',
+        error: '#b12704',
         'surface-container-lowest': '#ffffff',
-        'surface-dim': '#cbdbf5',
+        'surface-dim': '#e3e6e6',
+        accent: '#ff9900',
+        cart: '#ffd814',
       },
       maxWidth: {
-        'container-max': '1280px',
+        'container-max': '1500px',
       },
       spacing: {
         gutter: '24px',

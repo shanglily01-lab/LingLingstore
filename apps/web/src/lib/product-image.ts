@@ -1,4 +1,4 @@
-export const PRODUCT_IMAGE_COUNT = 4
+export const PRODUCT_IMAGE_COUNT = 6
 
 export type ProductImageItem = {
   url: string
@@ -41,7 +41,7 @@ export function getProductImageUrl(images: unknown): string | null {
   return getProductImageUrls(images)[0] ?? null
 }
 
-/** 后台表单：固定 4 个 URL 槽位 */
+/** 后台表单：最多 6 个图片槽位，空槽表示尚未上传 */
 export function imageUrlsToFormSlots(urls: string[]): string[] {
   const slots = urls.slice(0, PRODUCT_IMAGE_COUNT)
   while (slots.length < PRODUCT_IMAGE_COUNT) slots.push('')

@@ -15,7 +15,7 @@ export function ProductGallery({ images, alt }: ProductGalleryProps) {
 
   if (urls.length === 0) {
     return (
-      <div className="flex aspect-[4/5] items-center justify-center bg-surface-container-low editorial-shadow">
+      <div className="flex aspect-square items-center justify-center bg-white">
         <span className="text-8xl">📦</span>
       </div>
     )
@@ -25,10 +25,10 @@ export function ProductGallery({ images, alt }: ProductGalleryProps) {
 
   return (
     <div className="space-y-4">
-      <div className="aspect-[4/5] overflow-hidden bg-surface-container-low editorial-shadow">
-        <img src={main} alt={alt} className="h-full w-full object-cover" />
+      <div className="aspect-square overflow-hidden bg-white">
+        <img src={main} alt={alt} className="h-full w-full object-contain" />
       </div>
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
         {urls.map((url, i) => (
           <button
             key={`${url}-${i}`}

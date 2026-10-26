@@ -1,6 +1,9 @@
+import { join } from 'path'
 import { Logger, ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
+import type { NestExpressApplication } from '@nestjs/platform-express'
+import type { NextFunction, Request, Response } from 'express'
 import helmet from 'helmet'
 import { AppModule } from './app.module'
 import type { Env } from './common/config/env.schema'
@@ -16,7 +19,7 @@ if (!(BigInt.prototype as { toJSON?: () => string }).toJSON) {
 }
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: ['log', 'error', 'warn', 'debug', 'verbose'],
   })
 
@@ -24,7 +27,16 @@ async function bootstrap(): Promise<void> {
   const port = config.get('API_PORT', { infer: true })
   const webOrigin = config.get('WEB_ORIGIN', { infer: true })
 
-  app.use(helmet())
+  app.use('/uploads', (_req: Request, res: Response, next: NextFunction) => {
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin')
+    next()
+  })
+  app.useStaticAssets(join(process.cwd(), 'uploads'), { prefix: '/uploads' })
+  app.use(
+    helmet({
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
+    }),
+  )
   app.enableCors({
     origin: [webOrigin],
     credentials: true,

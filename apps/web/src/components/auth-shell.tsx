@@ -11,7 +11,7 @@ type AuthShellProps = {
 /** 对齐 design-stitch/login.html：居中卡片 + 背景光晕 */
 export function AuthShell({ title, subtitle, children, footer }: AuthShellProps) {
   return (
-    <div className="relative flex min-h-[calc(100vh-3.5rem)] items-center justify-center px-margin-mobile py-8 md:min-h-[calc(100vh-5rem)] md:py-12">
+    <div className="relative flex min-h-[calc(100vh-3.5rem)] items-center justify-center px-margin-mobile py-8">
       <div
         className="pointer-events-none fixed right-0 top-0 -z-10 h-full w-1/2 overflow-hidden opacity-25"
         aria-hidden
@@ -21,7 +21,7 @@ export function AuthShell({ title, subtitle, children, footer }: AuthShellProps)
 
       <div className={`${card} w-full max-w-[440px] rounded-lg bg-surface-container-lowest p-5 sm:p-8 md:p-12`}>
         <div className="space-y-2">
-          <h1 className="text-display-lg-mobile font-bold tracking-tight text-on-surface md:text-display-lg">
+          <h1 className="text-2xl font-normal text-on-surface">
             {title}
           </h1>
           <p className="text-body-md text-on-surface-variant">{subtitle}</p>

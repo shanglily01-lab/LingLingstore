@@ -30,7 +30,7 @@ export function PageHeader({ title, subtitle, crumbs, action }: PageHeaderProps)
             ))}
           </nav>
         )}
-        <h1 className="text-display-lg-mobile font-bold tracking-tight text-on-surface md:text-display-lg">
+        <h1 className="text-xl font-bold text-on-surface md:text-2xl">
           {title}
         </h1>
         {subtitle && (

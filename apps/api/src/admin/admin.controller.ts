@@ -1,7 +1,42 @@
-import { Controller, Get, Post, Put, Patch, Delete, Body, Param, Query, UseGuards } from '@nestjs/common'
+import { randomBytes } from 'crypto'
+import { mkdir, writeFile } from 'fs/promises'
+import { join } from 'path'
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Put,
+  Query,
+  Req,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common'
+import { FileInterceptor } from '@nestjs/platform-express'
+import type { Request } from 'express'
 import { AdminService } from './admin.service'
 import { JwtAuthGuard } from '../common/guards'
 import { AdminGuard } from '../common/guards/admin.guard'
+
+const PRODUCT_IMAGE_TYPES: Record<string, string> = {
+  'image/jpeg': '.jpg',
+  'image/png': '.png',
+  'image/webp': '.webp',
+  'image/gif': '.gif',
+}
+const PRODUCT_IMAGE_MAX_BYTES = 5 * 1024 * 1024
+
+type UploadedImage = {
+  buffer: Buffer
+  mimetype: string
+  size: number
+  originalname: string
+}
 
 @Controller('admin')
 @UseGuards(JwtAuthGuard, AdminGuard)
@@ -22,6 +57,40 @@ export class AdminController {
     @Query('keyword') keyword?: string,
   ) {
     return this.admin.listProducts(Number(page) || 1, Number(pageSize) || 20, { status, categoryId, keyword })
+  }
+
+  @Post('uploads/product-image')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: { fileSize: PRODUCT_IMAGE_MAX_BYTES },
+    }),
+  )
+  async uploadProductImage(@UploadedFile() file: UploadedImage | undefined, @Req() req: Request) {
+    if (!file?.buffer?.length) {
+      throw new BadRequestException('请选择图片')
+    }
+    const ext = PRODUCT_IMAGE_TYPES[file.mimetype]
+    if (!ext) {
+      throw new BadRequestException('只支持 JPG、PNG、WEBP、GIF')
+    }
+    if (file.size > PRODUCT_IMAGE_MAX_BYTES) {
+      throw new BadRequestException('单张图片不能超过 5MB')
+    }
+
+    const filename = `${Date.now().toString(36)}-${randomBytes(6).toString('hex')}${ext}`
+    const dir = join(process.cwd(), 'uploads', 'products')
+    await mkdir(dir, { recursive: true })
+    await writeFile(join(dir, filename), file.buffer)
+
+    const forwardedProto = req.headers['x-forwarded-proto']
+    const hostHeader = req.headers['x-forwarded-host']
+    const host = (Array.isArray(hostHeader) ? hostHeader[0] : hostHeader) || req.get('host') || 'localhost'
+    const rawProto = Array.isArray(forwardedProto) ? forwardedProto[0] : forwardedProto
+    const proto =
+      rawProto?.split(',')[0] ||
+      (host.startsWith('localhost') || host.startsWith('127.0.0.1') ? req.protocol : 'https')
+
+    return { url: `${proto}://${host}/uploads/products/${filename}` }
   }
 
   @Post('products')

@@ -28,7 +28,7 @@ export default function EditProductPage() {
     descriptionEn: '',
     categoryId: '',
     status: 'active',
-    imageUrls: ['', '', '', ''],
+    imageUrls: ['', '', '', '', '', ''],
     cnListingId: '',
     cnPrice: '',
     cnStock: '',
@@ -94,8 +94,12 @@ export default function EditProductPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const filledImages = form.imageUrls.map((u) => u.trim()).filter(Boolean)
-    if (filledImages.length < PRODUCT_IMAGE_COUNT) {
-      toast.error(`请填写 ${PRODUCT_IMAGE_COUNT} 张商品图片 URL`)
+    if (filledImages.length < 1) {
+      toast.error('请至少上传 1 张商品图片')
+      return
+    }
+    if (filledImages.length > PRODUCT_IMAGE_COUNT) {
+      toast.error(`最多上传 ${PRODUCT_IMAGE_COUNT} 张商品图片`)
       return
     }
 

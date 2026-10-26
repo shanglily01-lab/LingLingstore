@@ -10,11 +10,11 @@ export const textarea =
   'mt-1 block w-full rounded-lg border border-outline-variant/30 bg-white px-4 py-2.5 text-sm text-on-surface outline-none focus:border-secondary focus:ring-1 focus:ring-secondary'
 
 export const btnPrimary =
-  'inline-flex items-center justify-center gap-2 bg-secondary px-6 py-2.5 text-label-sm font-medium text-white transition-all hover:bg-secondary-container active:scale-[0.98] disabled:opacity-50 editorial-shadow'
+  'inline-flex items-center justify-center gap-2 rounded-full border border-[#fcd200] bg-cart px-6 py-2.5 text-label-sm font-medium text-on-surface shadow-sm transition-colors hover:bg-[#f7ca00] active:bg-[#f0c14b] disabled:opacity-50'
 export const btnPrimaryLg =
-  'inline-flex h-14 w-full items-center justify-center gap-2 bg-secondary text-label-sm font-medium text-white transition-all hover:bg-secondary-container active:scale-[0.98] disabled:opacity-50 editorial-shadow'
+  'inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-[#fcd200] bg-cart text-label-sm font-medium text-on-surface shadow-sm transition-colors hover:bg-[#f7ca00] active:bg-[#f0c14b] disabled:opacity-50'
 export const btnSecondary =
-  'inline-flex items-center justify-center gap-2 border border-on-surface bg-transparent px-6 py-2.5 text-sm font-medium text-on-surface transition-colors hover:bg-surface-container-low disabled:opacity-50'
+  'inline-flex items-center justify-center gap-2 rounded-full border border-[#d5d9d9] bg-white px-6 py-2.5 text-sm font-medium text-on-surface shadow-sm transition-colors hover:bg-surface-container-low disabled:opacity-50'
 export const btnGhost =
   'inline-flex items-center justify-center gap-2 rounded-lg border border-outline-variant/30 px-4 py-2 text-sm font-medium text-on-surface-variant transition-colors hover:bg-surface-container-low disabled:opacity-50'
 export const btnDanger =
@@ -24,7 +24,7 @@ export const card = 'border border-outline-variant/20 bg-white editorial-shadow'
 export const cardFlat = 'border border-outline-variant/20 bg-white'
 export const panel = 'border border-outline-variant/20 bg-surface-container-low p-4'
 
-export const link = 'text-secondary hover:underline'
+export const link = 'text-secondary hover:text-secondary-container hover:underline'
 export const price = 'font-bold text-error'
 
 export const tableHead =

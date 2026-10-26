@@ -1,42 +1,70 @@
+'use client'
+
 import Link from 'next/link'
-import { Globe, Mail } from 'lucide-react'
 import { BRAND_NAME } from '@/lib/brand'
+
+const COLUMNS = [
+  {
+    title: '选购',
+    links: [
+      { href: '/products', label: '全部商品' },
+      { href: '/search', label: '搜索' },
+      { href: '/cart', label: '购物车' },
+    ],
+  },
+  {
+    title: '账户',
+    links: [
+      { href: '/login', label: '登录' },
+      { href: '/register', label: '注册' },
+      { href: '/account', label: '我的账户' },
+      { href: '/orders', label: '我的订单' },
+    ],
+  },
+  {
+    title: '关于',
+    links: [
+      { href: '/products', label: '正品保障' },
+      { href: '/products', label: '跨境配送' },
+      { href: '/products', label: '售后说明' },
+    ],
+  },
+]
 
 export function Footer() {
   return (
-    <footer className="w-full border-t border-outline-variant/20 bg-surface py-12">
-      <div className="mx-auto flex max-w-container-max flex-col items-center justify-between gap-8 px-margin-mobile md:flex-row md:px-margin-desktop">
-        <div className="flex flex-col items-center gap-2 md:items-start">
-          <span className="text-xl font-bold text-on-surface">{BRAND_NAME}</span>
-          <p className="text-sm text-on-surface-variant">© 2026 {BRAND_NAME}. 全球直采，品质保证。</p>
+    <footer className="mt-6 text-white">
+      <button
+        type="button"
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className="w-full bg-[#37475a] py-3 text-sm hover:bg-[#485769]"
+      >
+        回到顶部
+      </button>
+      <div className="bg-[#232f3e]">
+        <div className="mx-auto grid max-w-container-max grid-cols-2 gap-6 px-4 py-8 md:grid-cols-4">
+          {COLUMNS.map((col) => (
+            <div key={col.title}>
+              <h3 className="text-sm font-bold">{col.title}</h3>
+              <ul className="mt-3 space-y-2">
+                {col.links.map((item) => (
+                  <li key={item.label}>
+                    <Link href={item.href} className="text-sm text-[#ddd] hover:underline">
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          <div>
+            <h3 className="text-sm font-bold">{BRAND_NAME}</h3>
+            <p className="mt-3 text-sm leading-relaxed text-[#ddd]">全球直采，正品保障，支持法币支付与跨境配送。</p>
+          </div>
         </div>
-        <div className="flex flex-wrap justify-center gap-6 text-sm text-on-surface-variant">
-          <Link href="/products" className="transition-colors hover:text-secondary">
-            商品
-          </Link>
-          <Link href="/orders" className="transition-colors hover:text-secondary">
-            订单
-          </Link>
-          <Link href="/cart" className="transition-colors hover:text-secondary">
-            购物车
-          </Link>
-        </div>
-        <div className="flex gap-3">
-          <button
-            type="button"
-            aria-label="语言"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-outline-variant/30 transition-colors hover:bg-surface-container-low"
-          >
-            <Globe className="h-5 w-5 text-on-surface-variant" />
-          </button>
-          <button
-            type="button"
-            aria-label="联系"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-outline-variant/30 transition-colors hover:bg-surface-container-low"
-          >
-            <Mail className="h-5 w-5 text-on-surface-variant" />
-          </button>
-        </div>
+      </div>
+      <div className="bg-[#131921] py-6 text-center text-xs text-[#ddd]">
+        © 2026 {BRAND_NAME}. 全球直采，品质保证。
       </div>
     </footer>
   )

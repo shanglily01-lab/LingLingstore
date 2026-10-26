@@ -11,12 +11,19 @@ import { Toaster } from 'react-hot-toast'
 export function ClientLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const isAdmin = pathname.startsWith('/admin')
+  const compactHeader = pathname === '/login' || pathname === '/register'
 
   return (
     <AuthProvider>
       <Navbar />
       {!isAdmin && <RegionHintBanner />}
-      <main className={isAdmin ? 'min-h-[calc(100vh-3.5rem)] pt-14 md:min-h-[calc(100vh-5rem)] md:pt-20' : 'min-h-screen pt-14 md:pt-20'}>
+      <main
+        className={
+          compactHeader
+            ? 'min-h-screen pt-14'
+            : 'min-h-screen pt-[104px] md:pt-[100px]'
+        }
+      >
         {children}
       </main>
       {!isAdmin && <Footer />}

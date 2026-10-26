@@ -201,6 +201,35 @@ export const api = {
       },
       get: (id: string): Promise<any> => request(`/admin/products/${id}`),
       create: (data: AdminProductInput): Promise<any> => request('/admin/products', { method: 'POST', body: JSON.stringify(data) }),
+      uploadImage: async (file: File): Promise<{ url: string }> => {
+        const body = new FormData()
+        body.append('file', file)
+        const headers: Record<string, string> = {}
+        if (authToken) headers.Authorization = `Bearer ${authToken}`
+        const response = await fetch(`${env.apiBaseUrl}/admin/uploads/product-image`, {
+          method: 'POST',
+          headers,
+          body,
+        })
+        if (response.status === 401) {
+          setToken(null)
+          if (typeof window !== 'undefined') window.location.href = '/login'
+          throw new Error('未登录')
+        }
+        if (!response.ok) {
+          const text = await response.text().catch(() => '')
+          let message = '图片上传失败'
+          try {
+            const parsed = JSON.parse(text) as { message?: string | string[] }
+            if (Array.isArray(parsed.message)) message = parsed.message.join('，')
+            else if (parsed.message) message = parsed.message
+          } catch {
+            if (text) message = text
+          }
+          throw new Error(message)
+        }
+        return (await response.json()) as { url: string }
+      },
       update: (id: string, data: any): Promise<any> => request(`/admin/products/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
       delete: (id: string): Promise<{ ok: boolean }> => request(`/admin/products/${id}`, { method: 'DELETE' }),
       updateListing: (id: string, data: { price?: number; stock?: number; isActive?: boolean }): Promise<any> =>

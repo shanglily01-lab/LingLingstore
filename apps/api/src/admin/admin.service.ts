@@ -111,10 +111,10 @@ export class AdminService {
     }
   }
 
-  private assertFourImages(images?: unknown[]) {
+  private assertProductImages(images?: unknown[]) {
     const count = Array.isArray(images) ? images.filter((i) => i && (i as { url?: string }).url).length : 0
-    if (count < 4) {
-      throw new BadRequestException('每个商品需要 4 张图片')
+    if (count < 1 || count > 6) {
+      throw new BadRequestException('每个商品需要 1 到 6 张图片')
     }
   }
 
@@ -123,7 +123,7 @@ export class AdminService {
     categoryId?: string; images?: any[];
     listings: { region: string; sku: string; price: number; currency: string; stock: number }[]
   }) {
-    this.assertFourImages(data.images)
+    this.assertProductImages(data.images)
     const timestamp = Date.now().toString(36).toUpperCase()
     const random = nanoid(6).toUpperCase()
     const spuNo = 'SPU' + timestamp + random
@@ -145,7 +145,7 @@ export class AdminService {
   }
 
   async updateProduct(id: bigint, data: { nameCn?: string; nameEn?: string; descriptionCn?: string; descriptionEn?: string; categoryId?: string; images?: any[]; status?: string }) {
-    if (data.images !== undefined) this.assertFourImages(data.images)
+    if (data.images !== undefined) this.assertProductImages(data.images)
     const updateData: any = {}
     if (data.nameCn !== undefined) updateData.nameCn = data.nameCn
     if (data.nameEn !== undefined) updateData.nameEn = data.nameEn
