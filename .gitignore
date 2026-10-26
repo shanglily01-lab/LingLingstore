@@ -1,0 +1,53 @@
+# dependencies
+node_modules
+.pnpm-store
+
+# build output
+.next
+dist
+build
+out
+*.tsbuildinfo
+
+# env files
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# IDE / editors
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# turbo
+.turbo
+
+# prisma generated artifacts (client is in node_modules, but local dev migration shadow may appear)
+apps/api/prisma/migrations/dev/
+
+# coverage / test artifacts
+coverage
+.nyc_output
+
+# misc
+*.tgz
+.pnpm-debug.log

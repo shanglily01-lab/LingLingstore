@@ -1,0 +1,23 @@
+# 默认所有文本文件统一 LF
+* text=auto eol=lf
+
+# Shell 脚本必须 LF (Windows 上也是)
+*.sh text eol=lf
+
+# Windows 脚本保留 CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# 二进制资源
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.woff binary
+*.woff2 binary

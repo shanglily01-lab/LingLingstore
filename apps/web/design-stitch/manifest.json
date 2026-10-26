@@ -1,0 +1,21 @@
+{
+  "projectId": "14805744517546369088",
+  "projectTitle": "Web3Mall UI",
+  "stitchWebUrl": "https://stitch.withgoogle.com/projects/14805744517546369088",
+  "source": "本地归档参考稿 — 勿再频繁调用 Stitch API（慢且不稳定）",
+  "screens": [
+    { "id": "home", "htmlPath": "design-stitch/home.html", "htmlBytes": 22776 },
+    { "id": "products", "htmlPath": "design-stitch/products.html", "htmlBytes": 26313 },
+    { "id": "product-detail", "htmlPath": "design-stitch/product-detail.html", "htmlBytes": 19696 },
+    { "id": "login", "htmlPath": "design-stitch/login.html", "htmlBytes": 11066 },
+    { "id": "register", "htmlPath": "design-stitch/register.html", "htmlBytes": 12827 },
+    { "id": "cart", "htmlPath": "design-stitch/cart.html", "htmlBytes": 16643 },
+    { "id": "checkout", "htmlPath": "design-stitch/checkout.html", "htmlBytes": 15807 },
+    { "id": "orders", "htmlPath": "design-stitch/orders.html", "htmlBytes": 18282 },
+    { "id": "admin-dashboard", "htmlPath": "design-stitch/admin-dashboard.html", "htmlBytes": 25480 },
+    { "id": "admin-products", "htmlPath": "design-stitch/admin-products.html", "htmlBytes": 26941 },
+    { "id": "admin-product-form", "htmlPath": "design-stitch/admin-product-form.html", "htmlBytes": 20491 }
+  ],
+  "pending": ["admin-categories"],
+  "implementation": "apps/web/tailwind.config.ts + src/components/ui/stitch.ts"
+}

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Web3Mall Admin Overview</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Load Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#000000",
+                    "on-surface": "#0b1c30",
+                    "inverse-primary": "#bec6e0",
+                    "secondary-container": "#645efb",
+                    "on-primary-fixed": "#131b2e",
+                    "background": "#f8f9ff",
+                    "secondary": "#4b41e1",
+                    "on-tertiary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "tertiary": "#000000",
+                    "surface-dim": "#cbdbf5",
+                    "surface-bright": "#f8f9ff",
+                    "on-tertiary-fixed-variant": "#444749",
+                    "inverse-surface": "#213145",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-tertiary-container": "#818486",
+                    "outline": "#76777d",
+                    "on-primary": "#ffffff",
+                    "surface-variant": "#d3e4fe",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-error": "#ffffff",
+                    "primary-fixed-dim": "#bec6e0",
+                    "on-secondary-container": "#fffbff",
+                    "tertiary-container": "#191c1e",
+                    "surface-container": "#e5eeff",
+                    "on-secondary-fixed-variant": "#3323cc",
+                    "on-primary-container": "#7c839b",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "secondary-fixed": "#e2dfff",
+                    "primary-fixed": "#dae2fd",
+                    "on-surface-variant": "#45464d",
+                    "on-secondary-fixed": "#0f0069",
+                    "tertiary-fixed-dim": "#c4c7c9",
+                    "outline-variant": "#c6c6cd",
+                    "on-error-container": "#93000a",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-low": "#eff4ff",
+                    "surface-tint": "#565e74",
+                    "secondary-fixed-dim": "#c3c0ff",
+                    "on-tertiary-fixed": "#191c1e",
+                    "surface-container-high": "#dce9ff",
+                    "surface": "#f8f9ff",
+                    "on-background": "#0b1c30",
+                    "on-secondary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "primary-container": "#131b2e",
+                    "tertiary-fixed": "#e0e3e5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "base": "8px",
+                    "margin-mobile": "16px",
+                    "section-gap": "80px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "price-display": ["Inter", "sans-serif"],
+                    "display-lg": ["Inter", "sans-serif"],
+                    "label-sm": ["Inter", "sans-serif"],
+                    "headline-md": ["Inter", "sans-serif"],
+                    "display-lg-mobile": ["Inter", "sans-serif"],
+                    "body-lg": ["Inter", "sans-serif"],
+                    "body-md": ["Inter", "sans-serif"]
+            },
+            "fontSize": {
+                    "price-display": ["20px", {"lineHeight": "1", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+      body {
+        font-family: 'Inter', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        background-color: #f8f9ff;
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+      .side-nav-active {
+        background-color: #eff4ff;
+        border-right: 4px solid #4b41e1;
+        color: #4b41e1;
+        font-weight: 700;
+      }
+      .order-table th {
+        text-align: left;
+        padding: 12px 16px;
+        color: #76777d;
+        font-size: 14px;
+        font-weight: 500;
+        border-bottom: 1px solid #e2e8f0;
+      }
+      .order-table td {
+        padding: 16px;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: 14px;
+      }
+    </style>
+</head>
+<body class="flex min-h-screen text-on-surface">
+<!-- Shared SideNavBar Component -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest border-r border-outline-variant flex flex-col z-50">
+<!-- Brand Header -->
+<div class="px-6 py-8">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Web3Mall</h1>
+<p class="font-label-sm text-label-sm text-on-primary-container mt-1">Global Admin</p>
+</div>
+<!-- Navigation Links -->
+<nav class="flex-grow">
+<ul class="flex flex-col">
+<li>
+<a class="flex items-center gap-3 px-6 py-4 side-nav-active transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">仪表盘</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-4 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-body-md text-body-md">商品</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-4 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="category">category</span>
+<span class="font-body-md text-body-md">分类</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-4 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="font-body-md text-body-md">订单</span>
+</a>
+</li>
+</ul>
+</nav>
+<!-- Sidebar Footer -->
+<div class="mt-auto p-4 flex flex-col gap-2">
+<button class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors rounded-lg">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</button>
+<div class="px-4 py-4 flex items-center gap-3 border-t border-outline-variant mt-2">
+<img alt="Admin User Profile" class="w-8 h-8 rounded-full object-cover" data-alt="A professional headshot of a modern executive in a bright, minimalist studio environment. The person has a friendly but authoritative expression, lit with soft high-key lighting that emphasizes a clean and trustworthy corporate image. The background is a soft-focus office with light blue and white tones, matching a luxury brand aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuwdzwlUpIG3CIW1rXi28pCwdJ2JenwKyB78OCgVwtmwBhqkgMNpKnHRX4rv8jl0nZaM3-hFqMZuzeYguQCX0sUKAXJtUSeizpprJ-vSwcockK10X2IIWsezW6dBqIck5ESaDfqSKd5ymncsePBgSNE0aNN_ynhnI8wB8J0W7evIG-l3xgnqDkpihspCX4OW2iUwdPUyLML_z4Pjal-YCY_aoYL4WoGyzxQYPg4dLmmUPIxGNNQ2CbKJOBmFEpWhIDUBCbfaZiL_QB"/>
+<div class="overflow-hidden">
+<p class="text-xs font-bold truncate">Admin User</p>
+<p class="text-[10px] text-on-surface-variant truncate">admin@web3mall.com</p>
+</div>
+<button class="ml-auto text-on-surface-variant hover:text-error">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 flex-1 flex flex-col min-w-0">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-40 glass-panel h-16 border-b border-on-surface/5 flex items-center justify-between px-8">
+<div class="flex items-center gap-4 bg-surface-container-low px-4 py-2 rounded-full w-96">
+<span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-on-surface-variant/60" placeholder="搜索订单, 商品或客户..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex gap-8">
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Analytics</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Logistics</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Reports</a>
+</nav>
+<div class="h-6 w-px bg-outline-variant"></div>
+<div class="flex gap-4">
+<button class="relative text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="p-8 max-w-container-max mx-auto w-full">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+<div>
+<h2 class="font-display-lg text-display-lg text-primary">管理概览</h2>
+<p class="text-on-surface-variant mt-2 font-body-md">欢迎回来，这是您今天的商城经营报告。</p>
+</div>
+<div class="flex gap-3">
+<div class="flex items-center gap-2 bg-surface-container-lowest border border-outline-variant px-4 py-2.5 rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+<span class="text-sm font-medium">2023年10月01日 - 2023年10月31日</span>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-label-sm text-label-sm flex items-center gap-2 hover:opacity-90 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+                        导出报告
+                    </button>
+</div>
+</div>
+<!-- Stat Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+<!-- Total Revenue -->
+<div class="bg-surface-container-lowest border border-outline-variant p-6 rounded-xl hover:border-secondary transition-colors duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-secondary/10 text-secondary rounded-lg">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+</div>
+<span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">+12%</span>
+</div>
+<p class="text-on-surface-variant font-label-sm text-label-sm mb-1">总收益 (Total Revenue)</p>
+<h3 class="font-price-display text-price-display text-2xl">¥1,284,500.00</h3>
+<p class="text-[10px] text-on-surface-variant mt-2">较上月同期增长趋势</p>
+</div>
+<!-- Active Orders -->
+<div class="bg-surface-container-lowest border border-outline-variant p-6 rounded-xl hover:border-secondary transition-colors duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-secondary/10 text-secondary rounded-lg">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+</div>
+<span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">+5%</span>
+</div>
+<p class="text-on-surface-variant font-label-sm text-label-sm mb-1">活跃订单 (Active Orders)</p>
+<h3 class="font-price-display text-price-display text-2xl">1,432</h3>
+<p class="text-[10px] text-on-surface-variant mt-2">今日新增处理订单</p>
+</div>
+<!-- New Users -->
+<div class="bg-surface-container-lowest border border-outline-variant p-6 rounded-xl hover:border-secondary transition-colors duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-secondary/10 text-secondary rounded-lg">
+<span class="material-symbols-outlined" data-icon="person_add">person_add</span>
+</div>
+<span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">+8%</span>
+</div>
+<p class="text-on-surface-variant font-label-sm text-label-sm mb-1">新增用户 (New Users)</p>
+<h3 class="font-price-display text-price-display text-2xl">856</h3>
+<p class="text-[10px] text-on-surface-variant mt-2">本周新注册会员</p>
+</div>
+<!-- Inventory -->
+<div class="bg-surface-container-lowest border border-outline-variant p-6 rounded-xl hover:border-secondary transition-colors duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-secondary/10 text-secondary rounded-lg">
+<span class="material-symbols-outlined" data-icon="inventory">inventory</span>
+</div>
+<span class="text-xs font-bold text-on-surface-variant bg-surface-container px-2 py-1 rounded">Stable</span>
+</div>
+<p class="text-on-surface-variant font-label-sm text-label-sm mb-1">商品库存 (Inventory)</p>
+<h3 class="font-price-display text-price-display text-2xl">12,403</h3>
+<p class="text-[10px] text-on-surface-variant mt-2">全品类SKU在库统计</p>
+</div>
+</div>
+<!-- Main Charts & Details -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-8 items-start">
+<!-- Revenue Overview Panel -->
+<div class="xl:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+<div class="p-6 border-b border-outline-variant flex items-center justify-between">
+<h4 class="font-headline-md text-headline-md">收益概览 (Revenue Overview)</h4>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="text-xs text-on-surface-variant">中国市场</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-surface-dim"></span>
+<span class="text-xs text-on-surface-variant">海外市场</span>
+</div>
+</div>
+</div>
+<div class="p-8 h-[400px] relative">
+<!-- Chart Visualization Placeholder -->
+<div class="absolute inset-0 flex items-end px-8 pb-12 gap-8">
+<div class="flex-1 bg-surface-container-low relative group rounded-t-lg transition-all" style="height: 40%;">
+<div class="absolute inset-x-0 bottom-0 bg-secondary/20 rounded-t-lg group-hover:bg-secondary/40 transition-all" style="height: 60%"></div>
+<div class="absolute -bottom-6 left-0 right-0 text-center text-[10px] text-on-surface-variant">JAN</div>
+</div>
+<div class="flex-1 bg-surface-container-low relative group rounded-t-lg transition-all" style="height: 55%;">
+<div class="absolute inset-x-0 bottom-0 bg-secondary/20 rounded-t-lg group-hover:bg-secondary/40 transition-all" style="height: 70%"></div>
+<div class="absolute -bottom-6 left-0 right-0 text-center text-[10px] text-on-surface-variant">FEB</div>
+</div>
+<div class="flex-1 bg-surface-container-low relative group rounded-t-lg transition-all" style="height: 75%;">
+<div class="absolute inset-x-0 bottom-0 bg-secondary/20 rounded-t-lg group-hover:bg-secondary/40 transition-all" style="height: 85%"></div>
+<div class="absolute -bottom-6 left-0 right-0 text-center text-[10px] text-on-surface-variant">MAR</div>
+</div>
+<div class="flex-1 bg-surface-container-low relative group rounded-t-lg transition-all" style="height: 65%;">
+<div class="absolute inset-x-0 bottom-0 bg-secondary/20 rounded-t-lg group-hover:bg-secondary/40 transition-all" style="height: 50%"></div>
+<div class="absolute -bottom-6 left-0 right-0 text-center text-[10px] text-on-surface-variant">APR</div>
+</div>
+<div class="flex-1 bg-secondary relative group rounded-t-lg transition-all" style="height: 90%;">
+<div class="absolute inset-x-0 bottom-0 bg-secondary/40 rounded-t-lg group-hover:bg-secondary/60 transition-all" style="height: 90%"></div>
+<div class="absolute -bottom-6 left-0 right-0 text-center text-[10px] font-bold text-primary">MAY</div>
+</div>
+<div class="flex-1 bg-surface-container-low relative group rounded-t-lg transition-all" style="height: 80%;">
+<div class="absolute inset-x-0 bottom-0 bg-secondary/20 rounded-t-lg group-hover:bg-secondary/40 transition-all" style="height: 75%"></div>
+<div class="absolute -bottom-6 left-0 right-0 text-center text-[10px] text-on-surface-variant">JUN</div>
+</div>
+</div>
+<!-- Backdrop visual elements -->
+<div class="absolute inset-x-8 top-12 bottom-12 border-l border-b border-outline-variant flex flex-col justify-between">
+<div class="w-full border-t border-outline-variant/30 border-dashed"></div>
+<div class="w-full border-t border-outline-variant/30 border-dashed"></div>
+<div class="w-full border-t border-outline-variant/30 border-dashed"></div>
+<div class="w-full border-t border-outline-variant/30 border-dashed"></div>
+</div>
+</div>
+</div>
+<!-- Side Panel: Geographical Distribution -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 h-full flex flex-col">
+<h4 class="font-headline-md text-headline-md mb-6">活跃市场</h4>
+<div class="flex-1">
+<div class="relative w-full aspect-square bg-surface-container-low rounded-lg overflow-hidden mb-6">
+<img alt="Market Distribution Map" class="w-full h-full object-cover opacity-60 grayscale" data-alt="A stylized, clean map of the world presented in a minimalist light mode aesthetic. The continents are rendered in a soft muted gray, while active market nodes are highlighted with glowing electric indigo pulses. The background is a crisp white, and the overall composition feels high-tech and premium, fitting for a global commerce dashboard." data-location="Global" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSmLWs6Pxpog10V0xEtb4lnvlbs3R4xbMTLLKFGePKAsjYX8os3xrP_ewEaJMOT6GFIqteTWb0yO84jZSIFgu_cW4OLSk6LevtiLN4RrxBkueDTz2pjOd75WRAGYMydQMh_5H83nWv0bN52o2__yTW075grBSvK_gS8bPR6hOcqd72hLNJCeuFE7oDicPqVNfw6IDRMelkxMgl5idQ9oEuPqmXShoZUPUOmvhxLgv0Y4lyyFrO7xDq4ztjQ-kNyAknyqGnsIOHRdL2"/>
+<div class="absolute top-1/2 left-1/3 w-3 h-3 bg-secondary rounded-full animate-ping"></div>
+<div class="absolute top-1/3 right-1/4 w-3 h-3 bg-secondary rounded-full animate-ping delay-700"></div>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<span class="text-sm">上海, 中国</span>
+<span class="text-sm font-bold">42%</span>
+</div>
+<div class="w-full bg-surface-container-low h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 42%"></div>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm">新加坡</span>
+<span class="text-sm font-bold">28%</span>
+</div>
+<div class="w-full bg-surface-container-low h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 28%"></div>
+</div>
+</div>
+</div>
+<button class="mt-8 text-secondary font-label-sm text-label-sm hover:underline">查看完整区域报告 →</button>
+</div>
+</div>
+<!-- Recent Orders List -->
+<div class="mt-10 bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+<div class="px-8 py-6 border-b border-outline-variant flex items-center justify-between">
+<h4 class="font-headline-md text-headline-md">最新订单</h4>
+<button class="text-sm text-on-surface-variant hover:text-primary underline">查看全部订单</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full order-table border-collapse">
+<thead>
+<tr>
+<th>订单号</th>
+<th>客户</th>
+<th>金额</th>
+<th>状态</th>
+<th>时间</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="font-mono text-xs">#ORD-2023-8942</td>
+<td>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-secondary text-xs font-bold">张</div>
+<span>张先生 (Zhang Wei)</span>
+</div>
+</td>
+<td class="font-price-display">¥4,299.00</td>
+<td>
+<span class="px-3 py-1 bg-green-50 text-green-700 text-[10px] font-bold rounded-full border border-green-100">已完成</span>
+</td>
+<td class="text-on-surface-variant">2023-10-31 14:22</td>
+<td>
+<button class="text-secondary hover:text-primary"><span class="material-symbols-outlined text-base" data-icon="more_horiz">more_horiz</span></button>
+</td>
+</tr>
+<tr>
+<td class="font-mono text-xs">#ORD-2023-8941</td>
+<td>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-secondary text-xs font-bold">EL</div>
+<span>Elena Rodriguez</span>
+</div>
+</td>
+<td class="font-price-display">¥12,850.00</td>
+<td>
+<span class="px-3 py-1 bg-blue-50 text-blue-700 text-[10px] font-bold rounded-full border border-blue-100">处理中</span>
+</td>
+<td class="text-on-surface-variant">2023-10-31 13:45</td>
+<td>
+<button class="text-secondary hover:text-primary"><span class="material-symbols-outlined text-base" data-icon="more_horiz">more_horiz</span></button>
+</td>
+</tr>
+<tr>
+<td class="font-mono text-xs">#ORD-2023-8940</td>
+<td>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-secondary text-xs font-bold">李</div>
+<span>李晓芳</span>
+</div>
+</td>
+<td class="font-price-display">¥1,120.00</td>
+<td>
+<span class="px-3 py-1 bg-green-50 text-green-700 text-[10px] font-bold rounded-full border border-green-100">已完成</span>
+</td>
+<td class="text-on-surface-variant">2023-10-31 11:05</td>
+<td>
+<button class="text-secondary hover:text-primary"><span class="material-symbols-outlined text-base" data-icon="more_horiz">more_horiz</span></button>
+</td>
+</tr>
+<tr>
+<td class="font-mono text-xs">#ORD-2023-8939</td>
+<td>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-secondary text-xs font-bold">KT</div>
+<span>Ken Tanaka</span>
+</div>
+</td>
+<td class="font-price-display">¥24,000.00</td>
+<td>
+<span class="px-3 py-1 bg-blue-50 text-blue-700 text-[10px] font-bold rounded-full border border-blue-100">处理中</span>
+</td>
+<td class="text-on-surface-variant">2023-10-31 09:12</td>
+<td>
+<button class="text-secondary hover:text-primary"><span class="material-symbols-outlined text-base" data-icon="more_horiz">more_horiz</span></button>
+</td>
+</tr>
+<tr>
+<td class="font-mono text-xs">#ORD-2023-8938</td>
+<td>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-secondary text-xs font-bold">刘</div>
+<span>刘强</span>
+</div>
+</td>
+<td class="font-price-display">¥680.00</td>
+<td>
+<span class="px-3 py-1 bg-green-50 text-green-700 text-[10px] font-bold rounded-full border border-green-100">已完成</span>
+</td>
+<td class="text-on-surface-variant">2023-10-30 22:30</td>
+<td>
+<button class="text-secondary hover:text-primary"><span class="material-symbols-outlined text-base" data-icon="more_horiz">more_horiz</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="p-8 mt-auto border-t border-outline-variant bg-white/50 text-center">
+<p class="text-xs text-on-surface-variant">© 2023 Web3Mall Global Administration System. All rights reserved.</p>
+</footer>
+</main>
+<script>
+        // Micro-interactions and atmospheric effects
+        document.addEventListener('DOMContentLoaded', () => {
+            // Stat cards hover lift effect
+            const cards = document.querySelectorAll('.bg-surface-container-lowest');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-4px)';
+                    card.style.boxShadow = '0 10px 15px -3px rgba(15, 23, 42, 0.05)';
+                    card.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                    card.style.boxShadow = 'none';
+                });
+            });
+
+            // Smooth ripple effect for primary button
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.addEventListener('mousedown', function() {
+                    this.style.transform = 'scale(0.98)';
+                });
+                button.addEventListener('mouseup', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+</body></html>

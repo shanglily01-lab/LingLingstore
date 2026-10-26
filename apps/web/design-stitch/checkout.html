@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>确认订单 - Web3Mall</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error": "#ba1a1a",
+                      "surface": "#f8f9ff",
+                      "secondary-fixed": "#e2dfff",
+                      "surface-container-high": "#dce9ff",
+                      "secondary-fixed-dim": "#c3c0ff",
+                      "on-error-container": "#93000a",
+                      "on-secondary-fixed": "#0f0069",
+                      "primary-container": "#131b2e",
+                      "on-primary-container": "#7c839b",
+                      "primary": "#000000",
+                      "on-secondary-container": "#fffbff",
+                      "on-secondary": "#ffffff",
+                      "on-surface": "#0b1c30",
+                      "outline": "#76777d",
+                      "surface-container": "#e5eeff",
+                      "secondary-container": "#645efb",
+                      "on-primary": "#ffffff",
+                      "background": "#f8f9ff",
+                      "on-tertiary-fixed": "#191c1e",
+                      "on-error": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "tertiary-fixed-dim": "#c4c7c9",
+                      "on-tertiary-container": "#818486",
+                      "surface-variant": "#d3e4fe",
+                      "inverse-surface": "#213145",
+                      "surface-bright": "#f8f9ff",
+                      "surface-container-low": "#eff4ff",
+                      "on-surface-variant": "#45464d",
+                      "tertiary-container": "#191c1e",
+                      "on-background": "#0b1c30",
+                      "primary-fixed": "#dae2fd",
+                      "inverse-primary": "#bec6e0",
+                      "inverse-on-surface": "#eaf1ff",
+                      "surface-tint": "#565e74",
+                      "surface-dim": "#cbdbf5",
+                      "surface-container-highest": "#d3e4fe",
+                      "on-secondary-fixed-variant": "#3323cc"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "gutter": "24px",
+                      "section-gap": "80px",
+                      "margin-desktop": "40px",
+                      "container-max": "1280px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "price-display": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "display-lg-mobile": ["Inter"]
+              },
+              "fontSize": {
+                      "price-display": ["20px", {"lineHeight": "1", "fontWeight": "700"}],
+                      "label-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .payment-tile.active {
+            border-color: #4b41e1;
+            background-color: rgba(75, 65, 225, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface">
+<!-- TopNavBar - Context: Checkout (Suppressed links/actions to focus user) -->
+<header class="sticky top-0 w-full z-50 flex items-center justify-between px-margin-mobile md:px-margin-desktop h-20 max-w-container-max mx-auto bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10 shadow-sm">
+<div class="font-display-lg text-display-lg-mobile md:text-display-lg tracking-tighter text-primary">Web3Mall</div>
+<div class="flex items-center gap-6">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+                安全结账
+            </span>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Confirm Order -->
+<div class="lg:col-span-8 flex flex-col gap-10">
+<section>
+<h1 class="font-headline-md text-headline-md mb-8">确认订单</h1>
+<!-- Shipping Address -->
+<div class="mb-10">
+<h2 class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant mb-4">收货地址</h2>
+<div class="bg-surface-container-lowest p-6 border border-outline-variant/30 rounded-lg flex justify-between items-start">
+<div>
+<div class="flex items-center gap-3 mb-2">
+<span class="font-headline-md text-[18px]">张伟</span>
+<span class="font-body-md text-on-surface-variant">138 **** 8888</span>
+</div>
+<p class="text-on-surface-variant font-body-md">上海市 浦东新区 陆家嘴环路 1234号 28层</p>
+</div>
+<button class="text-secondary font-label-sm text-label-sm hover:underline">修改</button>
+</div>
+</div>
+<!-- Payment Methods -->
+<div class="mb-10">
+<h2 class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant mb-6">支付方式</h2>
+<div class="space-y-8">
+<!-- Domestic -->
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-4">境内支付</p>
+<div class="grid grid-cols-2 gap-4">
+<div class="payment-tile active border border-outline-variant/30 rounded-lg p-4 flex items-center gap-4 cursor-pointer hover:border-secondary transition-all group">
+<div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[#00A0E9]" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+</div>
+<span class="font-body-md font-semibold">支付宝</span>
+<div class="ml-auto w-5 h-5 rounded-full border-2 border-secondary flex items-center justify-center">
+<div class="w-2.5 h-2.5 bg-secondary rounded-full"></div>
+</div>
+</div>
+<div class="payment-tile border border-outline-variant/30 rounded-lg p-4 flex items-center gap-4 cursor-pointer hover:border-secondary transition-all group">
+<div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[#07C160]" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+</div>
+<span class="font-body-md font-semibold">微信支付</span>
+<div class="ml-auto w-5 h-5 rounded-full border-2 border-outline-variant/30"></div>
+</div>
+</div>
+</div>
+<!-- International -->
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-4">国际支付</p>
+<div class="grid grid-cols-2 gap-4">
+<div class="payment-tile border border-outline-variant/30 rounded-lg p-4 flex items-center gap-4 cursor-pointer hover:border-secondary transition-all group">
+<div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[#635BFF]" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<span class="font-body-md font-semibold">Stripe</span>
+<div class="ml-auto w-5 h-5 rounded-full border-2 border-outline-variant/30"></div>
+</div>
+<div class="payment-tile border border-outline-variant/30 rounded-lg p-4 flex items-center gap-4 cursor-pointer hover:border-secondary transition-all group">
+<div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[#003087]" style="font-variation-settings: 'FILL' 1;">credit_card</span>
+</div>
+<span class="font-body-md font-semibold">PayPal</span>
+<div class="ml-auto w-5 h-5 rounded-full border-2 border-outline-variant/30"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Order Items -->
+<div>
+<h2 class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant mb-6">订单商品</h2>
+<div class="space-y-6">
+<!-- Item 1 -->
+<div class="flex gap-6 items-center">
+<div class="w-24 h-24 bg-white border border-outline-variant/20 rounded overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A minimalist, premium mechanical watch with a brushed stainless steel case and a black leather strap, presented on a pristine white surface with soft side lighting and deep shadows. The aesthetic is clean, luxury editorial with high contrast and sharp focus on the watch face texture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAW2izi58lMIBASubx5EtofdbnFdJ8lYNGudFoymfa-CGL0bcNRbBJXa62du06gHHqEnTSX1I9sg--FWNQXHUULy0F94vmr_9p6EiXAq2ZzzX7A_CGroNsQM0hNoibU_kCGfbe_wO-B7lAU21RN4uXNqr26EZO7iKDSOZOP6br95g0pztJCURIz-c1LKvNraorH7-lwPiFIQcdSD9VfR9I5B_XFDa2MX6eS3UPFvRKH07pREqmuGS4WQaq-6wS_1kHuGGRmpy71h6a6"/>
+</div>
+<div class="flex-grow">
+<h3 class="font-body-lg text-on-surface mb-1">极简机械腕表 - 精钢系列</h3>
+<p class="text-on-surface-variant font-label-sm text-label-sm">数量: 1</p>
+</div>
+<div class="text-right">
+<p class="font-price-display text-price-display">¥ 2,499.00</p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex gap-6 items-center">
+<div class="w-24 h-24 bg-white border border-outline-variant/20 rounded overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Modern matte black noise-canceling headphones resting on a minimalist off-white desk. The scene is illuminated by natural window light creating soft highlights and a premium, tranquil mood. The composition emphasizes the smooth curves and high-end material quality of the audio gear." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_T55NZX3U8espZzxCFryM_5weNIhlGgEOM5DFMwd1FQn3durxT_1Pml-iGtvZbWQVIF4wfrOJISEc20TdUro7BtPEKWsxF0BV4QMMiDU3Mpw0jfv-HLq9jULn55El20D7n1bDmKIbjNgtl4DLq4ZUjGO4pbKyqU_uZXI9ShPcb6SONjDcSecUqDUy6Z2Y45Y26fXYRz3md_mGHaJKf68cX-tau_ZLtsdntGrUkPEN3MjGqCenRZjocsbi9uNHUIVSE-aO6p_dlfoE"/>
+</div>
+<div class="flex-grow">
+<h3 class="font-body-lg text-on-surface mb-1">降噪无线耳机 Pro</h3>
+<p class="text-on-surface-variant font-label-sm text-label-sm">数量: 1</p>
+</div>
+<div class="text-right">
+<p class="font-price-display text-price-display">¥ 1,899.00</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Order Summary (Sticky) -->
+<div class="lg:col-span-4">
+<div class="sticky top-32 bg-surface-container-low p-8 border border-outline-variant/20 rounded-xl shadow-sm">
+<h2 class="font-headline-md text-headline-md mb-8">订单摘要</h2>
+<div class="space-y-4 mb-8">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-body-md">小计</span>
+<span class="font-body-md">¥ 4,398.00</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-body-md">运费</span>
+<span class="font-body-md text-secondary">免费</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant border-b border-outline-variant/20 pb-4">
+<span class="font-body-md">预计税费</span>
+<span class="font-body-md">¥ 329.85</span>
+</div>
+<div class="flex justify-between items-center pt-4">
+<span class="font-headline-md text-headline-md">合计</span>
+<span class="font-price-display text-[32px] text-secondary">¥ 4,727.85</span>
+</div>
+</div>
+<button class="w-full bg-primary-container text-white py-5 rounded-lg font-headline-md text-[18px] hover:bg-secondary transition-all duration-300 transform active:scale-95 shadow-lg flex items-center justify-center gap-3 group">
+                        提交订单
+                        <span class="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+<div class="mt-8 space-y-4">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px] text-secondary">verified</span>
+<span class="font-label-sm text-label-sm">100% 正品保证</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px] text-secondary">encrypted</span>
+<span class="font-label-sm text-label-sm">加密支付安全</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-section-gap px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-start gap-gutter max-w-container-max mx-auto bg-surface-container-lowest border-t border-outline-variant/30 mt-20">
+<div class="flex flex-col gap-6">
+<div class="font-headline-md text-headline-md text-primary tracking-widest uppercase">Web3Mall</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">© 2024 Web3Mall Global. Redefining digital-physical commerce.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-12">
+<div class="flex flex-col gap-3">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface mb-2">帮助中心</span>
+<a class="font-body-md text-on-surface-variant hover:text-secondary transition-all" href="#">Shipping &amp; Returns</a>
+<a class="font-body-md text-on-surface-variant hover:text-secondary transition-all" href="#">Privacy Policy</a>
+<a class="font-body-md text-on-surface-variant hover:text-secondary transition-all" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface mb-2">探索</span>
+<a class="font-body-md text-on-surface-variant hover:text-secondary transition-all" href="#">Designers</a>
+<a class="font-body-md text-on-surface-variant hover:text-secondary transition-all" href="#">Collections</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for payment tile selection
+        document.querySelectorAll('.payment-tile').forEach(tile => {
+            tile.addEventListener('click', () => {
+                document.querySelectorAll('.payment-tile').forEach(t => {
+                    t.classList.remove('active');
+                    const indicator = t.querySelector('.ml-auto');
+                    indicator.classList.remove('border-secondary');
+                    indicator.classList.add('border-outline-variant/30');
+                    indicator.innerHTML = '';
+                });
+                
+                tile.classList.add('active');
+                const indicator = tile.querySelector('.ml-auto');
+                indicator.classList.remove('border-outline-variant/30');
+                indicator.classList.add('border-secondary');
+                indicator.innerHTML = '<div class="w-2.5 h-2.5 bg-secondary rounded-full"></div>';
+            });
+        });
+    </script>
+</body></html>

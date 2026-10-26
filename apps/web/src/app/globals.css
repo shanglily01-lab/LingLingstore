@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-surface font-sans text-on-surface antialiased;
+  }
+}
+
+@layer utilities {
+  .editorial-shadow {
+    box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.05);
+  }
+
+  .glass-header {
+    @apply bg-white/80 backdrop-blur-xl;
+  }
+}
+
+@layer base {
+  ::selection {
+    @apply bg-secondary-container/30 text-on-surface;
+  }
+}

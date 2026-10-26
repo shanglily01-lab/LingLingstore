@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Web3Mall - 商品详情</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#d3e4fe",
+                        "surface-dim": "#cbdbf5",
+                        "on-primary-container": "#7c839b",
+                        "tertiary-fixed-dim": "#c4c7c9",
+                        "on-secondary-fixed-variant": "#3323cc",
+                        "surface-container-high": "#dce9ff",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f8f9ff",
+                        "on-tertiary-fixed": "#191c1e",
+                        "tertiary": "#000000",
+                        "outline-variant": "#c6c6cd",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#131b2e",
+                        "primary-container": "#131b2e",
+                        "inverse-primary": "#bec6e0",
+                        "on-secondary-container": "#fffbff",
+                        "on-surface-variant": "#45464d",
+                        "secondary": "#4b41e1",
+                        "primary": "#000000",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#213145",
+                        "tertiary-container": "#191c1e",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "tertiary-fixed": "#e0e3e5",
+                        "error": "#ba1a1a",
+                        "on-surface": "#0b1c30",
+                        "surface-container-low": "#eff4ff",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#e5eeff",
+                        "on-tertiary-container": "#818486",
+                        "surface": "#f8f9ff",
+                        "on-background": "#0b1c30",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "secondary-fixed": "#e2dfff",
+                        "primary-fixed-dim": "#bec6e0",
+                        "outline": "#76777d",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#444749",
+                        "secondary-fixed-dim": "#c3c0ff",
+                        "on-secondary-fixed": "#0f0069",
+                        "primary-fixed": "#dae2fd",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#565e74",
+                        "secondary-container": "#645efb"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "base": "8px",
+                        "section-gap": "80px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "price-display": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "price-display": ["20px", {"lineHeight": "1", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "label-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #f8f9ff;
+            color: #0b1c30;
+            font-family: 'Inter', sans-serif;
+        }
+        .editorial-shadow {
+            box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.08);
+        }
+    </style>
+</head>
+<body class="min-h-screen pt-20">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-surface-container/80 backdrop-blur-xl border-b border-outline-variant/10">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex justify-between items-center h-20">
+<div class="flex items-center gap-12">
+<a class="font-headline-md text-headline-md font-bold tracking-tight text-primary dark:text-on-surface" href="#">Web3Mall</a>
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-label-sm text-label-sm text-primary dark:text-on-surface font-bold border-b-2 border-primary dark:border-on-surface pb-1" href="#">商品</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-on-surface transition-colors" href="#">购物车</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-on-surface transition-colors" href="#">订单</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-on-surface transition-colors" href="#">登录</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<button class="p-2 hover:bg-surface-container-low/50 transition-all duration-300 rounded-full">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+<button class="p-2 hover:bg-surface-container-low/50 transition-all duration-300 rounded-full">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<!-- Breadcrumb -->
+<nav class="mb-12 flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm">
+<a class="hover:text-primary transition-colors" href="#">首页</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">全部商品</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-bold">商品详情</span>
+</nav>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+<!-- Left Column: Product Gallery -->
+<div class="lg:col-span-7 space-y-gutter">
+<div class="aspect-[4/5] bg-white overflow-hidden rounded-lg editorial-shadow">
+<img alt="Premium Tech Product" class="w-full h-full object-cover" data-alt="A high-fidelity minimalist wireless headphone set presented in a studio setting. The lighting is soft and cinematic, highlighting the sleek curves and premium metallic finish of the device. The background is a clean, warm off-white, echoing a luxury editorial aesthetic. The composition is balanced and elegant, emphasizing the sophisticated design and superior build quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1wyH1Kz2dzhx5ERIpeHdngt7vyMzYl6tTR-FZJ4JpHQG4rD-KBvZC1KU7E08ZOq90BJgMPWgDSEbEJzzhzS6JiOPirtmXQxgulVeCHXe3wFnoi8yIMcba1ZQrUcb4Z5Jz-UlO2FBCIXr1JqoUbJXf1wSuYd2tm9jimXcJU9OxOUZ1iZA2oh1aqYRuWDzlzarxtjAMpW98mRDr_atE_pOfKX8jRA3wFzrlxyIjq5heLf5wHaMhxrQfIA-HKAaSt6b3LgsWVl9CHXFi"/>
+</div>
+<div class="grid grid-cols-3 gap-base">
+<div class="aspect-square bg-white border border-outline-variant/20 rounded hover:border-secondary transition-colors cursor-pointer overflow-hidden">
+<img alt="Detail 1" class="w-full h-full object-cover" data-alt="A close-up shot of the headphone earcups showing the fine leather texture and precise stitching. The lighting is moody and focused, highlighting the material's premium quality against a soft, neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxR6J9huzi7HUK8gg0wzQCkNhBag9Nzv25KqG1Lb6brxMCmkXqmOYe03khlsKKE11SZSG2-2Wi-KT9_69P0TQaO19kGLBfBFCPO3Bs6uiIvsjyrCyslw6nqMFjs7RPepU3W7c8q37lKw6Jx3JC536XAuK6bIbUsEtn-V-dnCBu5cFRqyHzB9lDs8XWWzCnPbolP4hf77Hwt_NKrMiG9Q-CMKOJGZQNz9jsDbP7kwtIPllq6U0zAUO12_ehhGFpGEYh3s8KlxEX5zfQ"/>
+</div>
+<div class="aspect-square bg-white border border-outline-variant/20 rounded hover:border-secondary transition-colors cursor-pointer overflow-hidden">
+<img alt="Detail 2" class="w-full h-full object-cover" data-alt="Macro view of the high-quality metal buttons and interface of a luxury electronic device. The lighting captures the brushed aluminum finish and clean engravings, maintaining a sophisticated and modern tech aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCj-V-Yvu2v83S18t7nLUq9HjrdgVWbav-DHK0Z25fkWzvXEjSopwR73yTOkqJ2On8chrA6V7woqMF_hSDY2URmmsmsLCX65JSNcL4VIv8Hd2y9umZLG9q9xi_D_Cv88LdeHNWcOzhCd72dY_u9VDzlAootAT3wzP9LVpTPs_8OVjJdR-xshZvseQ7_Xkbo4HqP7LXTzmNyalTpUUGXEm2NSTB0S9dNnxkfGfSR2FBBCduSVPNHBlXG08Hh2ujK9gdMfOaqNzwf6Pcj"/>
+</div>
+<div class="aspect-square bg-white border border-outline-variant/20 rounded hover:border-secondary transition-colors cursor-pointer overflow-hidden">
+<img alt="Detail 3" class="w-full h-full object-cover" data-alt="The product packaging in a minimalist, eco-friendly design. The box features clean typography and subtle silver foil accents, reinforcing the brand's premium, Web3Mall identity in a high-end editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEDa2_5D-Lz6TA0aewZReZUmTNz-J927bOeZjvrX9vtWgLL7baL-0TmcbfR-FOsfV-X05k9d6n0B6okvkTA-vS9cHo56wlcwaVaSCmwZna_yl-TODdl7dICFrd2ZSr5sY1xXeuTCoHybCdJDfXO5EB4wv_Gm_A2LofBs-NdISvSr5pVfygHYc2A7Kts78p_IVP0s03EZA4sLC0uJ68kES_rq9nvvIW_HLu9odMFN-UxjfsZJ2NMMBiNAV3CUVvsn_JXpqd3iBjc2X-"/>
+</div>
+</div>
+</div>
+<!-- Right Column: Product Info (Sticky) -->
+<div class="lg:col-span-5 lg:sticky lg:top-32 space-y-8">
+<header class="space-y-4">
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-container text-primary font-label-sm text-label-sm rounded-[2px]">NEW ARRIVAL</span>
+<span class="px-2 py-1 bg-secondary/10 text-secondary font-label-sm text-label-sm rounded-[2px]">LIMITED EDITION</span>
+</div>
+<h1 class="font-display-lg text-display-lg tracking-tight text-primary">Aura One 无线降噪耳机</h1>
+<div class="flex items-center gap-4 text-on-surface-variant font-label-sm text-label-sm">
+<span>SKU: WM-2024-X001</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span>库存充足</span>
+</div>
+</header>
+<div class="py-6 border-y border-outline-variant/10">
+<div class="flex items-baseline gap-2">
+<span class="font-price-display text-price-display text-primary">¥</span>
+<span class="text-5xl font-bold tracking-tighter text-primary">2,999.00</span>
+</div>
+<p class="mt-2 font-body-md text-body-md text-on-surface-variant">包含进口税费及增值税</p>
+</div>
+<div class="space-y-4">
+<h3 class="font-label-sm text-label-sm font-bold text-primary uppercase tracking-widest">产品描述</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                        Aura One 重新定义了移动音频的巅峰体验。采用尖端碳纤维振膜与主动混合降噪技术，为您呈现最纯净的录音室级音质。专为跨国精英设计，支持多点 Web3 身份认证接入。
+                    </p>
+<ul class="space-y-3 font-body-md text-body-md text-on-surface-variant">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+<span>40小时长效续航，支持超级快充</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+<span>高阶空间音频，提供沉浸式环绕体验</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+<span>全球联保服务，尊享优先技术支持</span>
+</li>
+</ul>
+</div>
+<div class="flex flex-col gap-4 pt-4">
+<button class="w-full py-5 bg-primary text-on-primary font-label-sm text-label-sm font-bold uppercase tracking-widest hover:opacity-90 transition-opacity editorial-shadow active:scale-[0.98]">
+                        加入购物车
+                    </button>
+<button class="w-full py-5 border border-primary text-primary font-label-sm text-label-sm font-bold uppercase tracking-widest hover:bg-surface-container-low transition-colors active:scale-[0.98]">
+                        查看购物车
+                    </button>
+</div>
+<div class="grid grid-cols-2 gap-4 py-8 border-t border-outline-variant/10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">public</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-bold">全球直邮</span>
+<span class="text-[12px] text-on-surface-variant">7-14 天送达</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">verified_user</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-bold">正品保证</span>
+<span class="text-[12px] text-on-surface-variant">数字证书追踪</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Section Gap -->
+<div class="my-section-gap"></div>
+<!-- Bento Grid Feature Section -->
+<section class="space-y-12">
+<h2 class="font-headline-md text-headline-md text-center text-primary">产品特性</h2>
+<div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-gutter auto-rows-[240px]">
+<div class="md:col-span-2 lg:col-span-3 row-span-2 bg-white rounded-lg p-10 editorial-shadow flex flex-col justify-end relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent z-10 opacity-60"></div>
+<img alt="ANC Tech" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A futuristic visualization of sound waves interacting with high-tech material surfaces. The scene is illuminated by neon electric indigo light against a deep navy background, conveying a sense of advanced noise-canceling technology and premium audio performance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBGCnqhP8LtZhhjdygo3yT0mvs8s1rDO40M6GtmnJoF7bX25of5grFlwxpOUblEwRssa9EoPiCkIBPA1LmIbcgslNpk5-39Bs7-trB-GIu0Un6I6l-pO3M3LFEMVBdzC_4Ey3c-YiVx_F7NkXU--XN6TjFIs7mKXJ_ElILfka9D4AFSQgiOYnnBhAKUS5qc-wXvvderVJ1akARCptzOBXFDPlub9cV2MxEHtZIj-_2V4sPO4ShireEZzynzioGuFFHn1DkHTGyNCJA"/>
+<div class="relative z-20 text-white space-y-2">
+<span class="font-label-sm text-label-sm text-secondary-fixed">TECHNOLOGY</span>
+<h3 class="font-headline-md text-headline-md font-bold">智能自适应降噪</h3>
+<p class="font-body-md text-body-md text-white/80 max-w-md">基于 AI 的实时噪声监测，根据环境自动调节降噪强度，在喧嚣中守护您的宁静。</p>
+</div>
+</div>
+<div class="md:col-span-2 lg:col-span-3 bg-surface-container rounded-lg p-10 flex flex-col justify-center gap-4">
+<span class="material-symbols-outlined text-secondary text-4xl">battery_charging_full</span>
+<div>
+<h3 class="font-headline-md text-headline-md font-bold text-primary">闪电快充</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">充电 10 分钟，即可享受长达 5 小时的不间断音乐之旅。为忙碌的数字游民而生。</p>
+</div>
+</div>
+<div class="md:col-span-2 lg:col-span-1 bg-white border border-outline-variant/10 rounded-lg p-8 flex flex-col items-center justify-center text-center gap-4 editorial-shadow">
+<span class="material-symbols-outlined text-secondary text-3xl">token</span>
+<h3 class="font-label-sm text-label-sm font-bold uppercase">Web3 身份</h3>
+<p class="text-[12px] text-on-surface-variant">硬件级私钥存储</p>
+</div>
+<div class="md:col-span-2 lg:col-span-2 bg-primary text-on-primary rounded-lg p-8 flex flex-col justify-end gap-2">
+<h3 class="font-label-sm text-label-sm font-bold uppercase tracking-widest text-secondary-fixed">Design</h3>
+<p class="font-body-lg text-body-lg">由米兰工作室设计，结合人体工学与前卫美学。</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 bg-surface dark:bg-surface-container-lowest border-t border-outline-variant/20">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-base">
+<div class="flex flex-col items-center md:items-start gap-4">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-on-surface">Web3Mall</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-surface-variant">© 2024 Web3Mall. 全球直采，品质保证。</p>
+</div>
+<nav class="flex gap-8">
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed-dim transition-colors" href="#">关于我们</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed-dim transition-colors" href="#">帮助中心</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed-dim transition-colors" href="#">服务协议</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed-dim transition-colors" href="#">隐私政策</a>
+</nav>
+</div>
+</footer>
+<script>
+        // Micro-interactions
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => btn.style.opacity = '0.7');
+            btn.addEventListener('mouseup', () => btn.style.opacity = '1');
+            btn.addEventListener('mouseleave', () => btn.style.opacity = '1');
+        });
+
+        // Simple gallery switcher simulation
+        const mainImage = document.querySelector('img[alt="Premium Tech Product"]');
+        document.querySelectorAll('.aspect-square img').forEach(thumb => {
+            thumb.parentElement.addEventListener('click', () => {
+                const tempSrc = mainImage.src;
+                const tempAlt = mainImage.getAttribute('data-alt');
+                
+                mainImage.src = thumb.src;
+                mainImage.setAttribute('data-alt', thumb.getAttribute('data-alt'));
+                
+                thumb.src = tempSrc;
+                thumb.setAttribute('data-alt', tempAlt);
+            });
+        });
+    </script>
+</body></html>

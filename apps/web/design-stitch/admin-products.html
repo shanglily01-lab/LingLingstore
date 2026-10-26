@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9ff; /* warm off-white */
+            color: #0b1c30;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-header {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        /* Custom scrollbar for subtle editorial feel */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f8f9ff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5eeff;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed-dim": "#c4c7c9",
+                      "outline-variant": "#c6c6cd",
+                      "on-surface-variant": "#45464d",
+                      "on-secondary-fixed": "#0f0069",
+                      "secondary-fixed": "#e2dfff",
+                      "primary-fixed": "#dae2fd",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container-low": "#eff4ff",
+                      "on-error-container": "#93000a",
+                      "on-secondary": "#ffffff",
+                      "surface-container-high": "#dce9ff",
+                      "surface": "#f8f9ff",
+                      "on-background": "#0b1c30",
+                      "surface-tint": "#565e74",
+                      "secondary-fixed-dim": "#c3c0ff",
+                      "on-tertiary-fixed": "#191c1e",
+                      "primary-container": "#131b2e",
+                      "tertiary-fixed": "#e0e3e5",
+                      "error": "#ba1a1a",
+                      "secondary": "#4b41e1",
+                      "secondary-container": "#645efb",
+                      "on-primary-fixed": "#131b2e",
+                      "background": "#f8f9ff",
+                      "on-surface": "#0b1c30",
+                      "inverse-primary": "#bec6e0",
+                      "primary": "#000000",
+                      "on-tertiary-fixed-variant": "#444749",
+                      "inverse-surface": "#213145",
+                      "surface-container-highest": "#d3e4fe",
+                      "tertiary": "#000000",
+                      "surface-dim": "#cbdbf5",
+                      "surface-bright": "#f8f9ff",
+                      "on-tertiary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "surface-variant": "#d3e4fe",
+                      "inverse-on-surface": "#eaf1ff",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-container": "#818486",
+                      "outline": "#76777d",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "on-secondary-fixed-variant": "#3323cc",
+                      "on-primary-container": "#7c839b",
+                      "primary-fixed-dim": "#bec6e0",
+                      "on-secondary-container": "#fffbff",
+                      "tertiary-container": "#191c1e",
+                      "surface-container": "#e5eeff",
+                      "on-error": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "container-max": "1280px",
+                      "base": "8px",
+                      "section-gap": "80px",
+                      "margin-desktop": "40px",
+                      "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                      "price-display": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "display-lg-mobile": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "price-display": ["20px", {"lineHeight": "1", "fontWeight": "700"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "label-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Sidebar Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full flex flex-col h-screen w-64 border-r border-outline-variant bg-surface-container-lowest dark:bg-surface-container-lowest z-50">
+<div class="px-6 py-8">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary">Web3Mall</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Global Admin</p>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<!-- Dashboard Tab (Inactive) -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<!-- Products Tab (Active) -->
+<a class="flex items-center gap-3 px-4 py-3 text-secondary font-bold border-r-4 border-secondary bg-surface-container-low transition-all scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-body-md text-body-md">Products</span>
+</a>
+<!-- Categories Tab (Inactive) -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="category">category</span>
+<span class="font-body-md text-body-md">Categories</span>
+</a>
+<!-- Orders Tab (Inactive) -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="font-body-md text-body-md">Orders</span>
+</a>
+</nav>
+<div class="mt-auto px-4 pb-8 space-y-1">
+<button class="w-full flex items-center justify-center gap-2 mb-6 px-4 py-3 bg-primary text-on-primary rounded font-label-sm text-label-sm hover:opacity-90 transition-all">
+<span class="material-symbols-outlined" data-icon="support_agent">support_agent</span>
+                Support
+            </button>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-body-md text-body-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<main class="ml-64 min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-40 w-full flex justify-between items-center px-gutter h-16 bg-surface/80 dark:bg-surface/80 backdrop-blur-md border-b border-on-surface/5">
+<div class="flex items-center gap-8">
+<div class="relative group">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant material-symbols-outlined" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-surface-container-low border-none focus:ring-1 focus:ring-secondary rounded-lg text-body-md font-body-md w-64 transition-all" placeholder="搜索商品..." type="text"/>
+</div>
+<nav class="hidden md:flex gap-6">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Analytics</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Logistics</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden bg-surface-container-high border border-outline-variant">
+<img alt="Admin Avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a person with a friendly expression, set against a clean, minimal gray background. The lighting is soft and even, highlighting a sophisticated and modern administrative aesthetic suitable for a high-end web platform dashboard. The overall tone is professional and trustworthy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4B7MHbBDCH6yQIbzSclSK5bO01U7vTWNk7IPR2BxrJINYVQxgBkKAl1V1L4HZgurDAMCl-54WQflSaLz2ViYjmKydeytdUvT3iI8eaVnacbHTKxzO7mKdQP0SiKR54OFegcNt3lMaQ2dXH6n3cLmHYgDjITH9i3zHdnk03Xk-qgibnx8QaFuwmLmMRHRPD-uXjZ78IIdEahjC5VGfQJOCSKok1CwVZpW4-sIdavUxBZc9RZzSbgxXLQRPna76WNvzmEBZw6xacDE6"/>
+</div>
+</div>
+</header>
+<!-- Product Management Content -->
+<div class="flex-1 p-gutter max-w-container-max mx-auto w-full">
+<!-- Page Header Section -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="font-display-lg text-display-lg text-primary">商品管理</h2>
+<p class="text-on-surface-variant font-body-md text-body-md mt-2">管理您的全球库存与跨链商品目录</p>
+</div>
+<button class="flex items-center gap-2 bg-secondary text-on-primary px-6 py-3 rounded-lg font-headline-md text-headline-md hover:opacity-90 transition-all shadow-lg shadow-secondary/20">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                    新增商品
+                </button>
+</div>
+<!-- Toolbar & Filters -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant flex flex-col gap-6 mb-8">
+<!-- Row 1: Category Tags -->
+<div class="flex flex-wrap items-center gap-3">
+<span class="text-label-sm font-label-sm text-on-surface-variant mr-2">类目过滤:</span>
+<button class="px-4 py-1.5 rounded-full bg-secondary text-on-primary font-label-sm text-label-sm">全部</button>
+<button class="px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-sm text-label-sm">智能科技</button>
+<button class="px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-sm text-label-sm">极简服饰</button>
+<button class="px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-sm text-label-sm">北欧家居</button>
+<button class="px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors font-label-sm text-label-sm">奢华配饰</button>
+</div>
+<!-- Row 2: Status & Refinement -->
+<div class="flex justify-between items-center border-t border-outline-variant pt-6">
+<div class="flex gap-4">
+<select class="bg-surface border border-outline-variant rounded-lg px-4 py-2 font-body-md text-body-md focus:ring-secondary focus:border-secondary outline-none">
+<option>所有状态</option>
+<option>在售</option>
+<option>已售罄</option>
+<option>草稿</option>
+</select>
+<select class="bg-surface border border-outline-variant rounded-lg px-4 py-2 font-body-md text-body-md focus:ring-secondary focus:border-secondary outline-none">
+<option>最近添加</option>
+<option>价格: 从高到低</option>
+<option>价格: 从低到高</option>
+<option>库存: 低到高</option>
+</select>
+</div>
+<div class="text-on-surface-variant font-label-sm text-label-sm">
+                        显示 1-10 共 156 个商品
+                    </div>
+</div>
+</div>
+<!-- High-Fidelity Data Table -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant">商品详情</th>
+<th class="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant">分类</th>
+<th class="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant text-right">价格 (CNY)</th>
+<th class="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant text-right">库存</th>
+<th class="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant text-center">状态</th>
+<th class="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant text-right">操作</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30">
+<!-- Product Item 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 bg-surface-container-high rounded overflow-hidden flex-shrink-0">
+<img alt="Premium Headphones" class="w-full h-full object-cover" data-alt="A pair of high-end, matte black wireless headphones resting on a minimalist marble surface. The lighting is cinematic with soft highlights on the metallic textures, following a modern luxury aesthetic. The background is a clean, slightly warm off-white, reflecting a premium editorial product catalog style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRVzqxQIYkWNep5yyv6vZ60Cp2f9ln5tqc1_oUzI19jfWq3Bf5q9kXTDHmORDLW5wUbIK4MuNlxGdqa23nWhaabzNt3k01UpUSMptec0M_cX6MKnOJsQbdIpo1mtCLnBKE12srUNRTzEm_Lf9ZbCa9uKbTxr29JAHB8Gv3bjWzsFOpisq7IZLXT1ChPJWzbW5QApCVuJ3EM25gcA4sTTo7PDRW3MuJRLSxa_MpdV7gGGK9HBxv4mL9Um2eidPA6MBBddzJ18j9IYv0"/>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold text-primary">智能降噪耳机 Pro</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Smart ANC Headphones Pro</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="bg-secondary/10 text-secondary px-3 py-1 rounded text-label-sm font-label-sm">智能科技</span>
+</td>
+<td class="px-6 py-5 text-right font-price-display text-price-display">¥2,499.00</td>
+<td class="px-6 py-5 text-right font-body-md text-body-md">423</td>
+<td class="px-6 py-5 text-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                                    在售
+                                </span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-on-surface-variant hover:text-secondary transition-colors material-symbols-outlined" data-icon="edit">edit</button>
+<button class="ml-4 text-on-surface-variant hover:text-error transition-colors material-symbols-outlined" data-icon="delete">delete</button>
+</td>
+</tr>
+<!-- Product Item 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 bg-surface-container-high rounded overflow-hidden flex-shrink-0">
+<img alt="Smart Watch" class="w-full h-full object-cover" data-alt="A minimalist white smartwatch with a clean digital face, displayed in a bright, high-key studio setting. The composition uses a strong diagonal line on a soft gray gradient background. The style is ultra-modern and editorial, focusing on the product's sleek lines and premium finish. Lighting is soft and diffused to minimize harsh shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmYcpUfpb3ht8JE7f82anNBd8GdbKqThNSTl_ktF4OTXfFvZIxSKZZbaokYnlbq_PIVquaReaJSIUJbZUScwZJ_4XlSNpb3D7LRyxOIwZhl9GBOmu1mRRHIq9JPrOKmU7jlVG-Ar7ZnXBqk1WJpujfg2aNcfrY5xW30DG-_oXWDglPII-3uZmUqi585xCYGOVge3K1leEBnMo8ykjepBl1UOd8ZI_scSrZtf8vy-06bnOjx0yMDqflbYpPKyBzqbphxituq0QFPg2t"/>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold text-primary">极简智能腕表</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Minimalist Smart Watch</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="bg-secondary/10 text-secondary px-3 py-1 rounded text-label-sm font-label-sm">智能科技</span>
+</td>
+<td class="px-6 py-5 text-right font-price-display text-price-display">¥1,899.00</td>
+<td class="px-6 py-5 text-right font-body-md text-body-md">0</td>
+<td class="px-6 py-5 text-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-rose-600"></span>
+                                    已售罄
+                                </span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-on-surface-variant hover:text-secondary transition-colors material-symbols-outlined" data-icon="edit">edit</button>
+<button class="ml-4 text-on-surface-variant hover:text-error transition-colors material-symbols-outlined" data-icon="delete">delete</button>
+</td>
+</tr>
+<!-- Product Item 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 bg-surface-container-high rounded overflow-hidden flex-shrink-0">
+<img alt="Minimalist Jacket" class="w-full h-full object-cover" data-alt="A piece of high-quality minimal clothing, a charcoal grey wool coat, hanging on a simple wooden hanger against a clean white textured wall. The scene is bathed in natural, soft daylight coming from the side, creating delicate shadows and emphasizing the fabric's rich texture. The mood is serene and highlights the quiet luxury and high craftsmanship of the garment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIG57jPBDNyCWiShMeaCCCEBAt0sveh1DWTmiB0qPaItAo8x_7xYYItTW7EoarRavrjQwr7eB1kBsaIJkOjUuMiOQqaiV6Zl8j9UCvrgKnTiG8sXZAbgOWevJ195juiRe9vb9rm_pG18qomIiTJhlZ2fh7ex4tTmqD3uy4Ps6pmW5oFsL-E0xDjuo68Ugc2LotQpXJCXKrLosgqaxmCH7x9Il7po7-uiO59WXg8g13qJ5CRgheOZd-bbJ8qB-0H4gdpwM9bZkFQLK8"/>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold text-primary">羊毛廓形外套</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Wool Silhouette Coat</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="bg-secondary/10 text-secondary px-3 py-1 rounded text-label-sm font-label-sm">极简服饰</span>
+</td>
+<td class="px-6 py-5 text-right font-price-display text-price-display">¥3,200.00</td>
+<td class="px-6 py-5 text-right font-body-md text-body-md">86</td>
+<td class="px-6 py-5 text-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                                    在售
+                                </span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-on-surface-variant hover:text-secondary transition-colors material-symbols-outlined" data-icon="edit">edit</button>
+<button class="ml-4 text-on-surface-variant hover:text-error transition-colors material-symbols-outlined" data-icon="delete">delete</button>
+</td>
+</tr>
+<!-- Product Item 4 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 bg-surface-container-high rounded overflow-hidden flex-shrink-0">
+<img alt="Scandi Chair" class="w-full h-full object-cover" data-alt="A designer Scandinavian wooden chair with a light oak finish and beige fabric seating. The chair is placed in a bright, airy corner of a modern living room with a large window. Soft evening light creates elongated shadows on a warm off-white floor. The aesthetic is clean, warm, and highly editorial, showcasing functional beauty and premium materials." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5iLsUyucZ2Ih62KXCr3QmVo9CkYecUbgPbGqrBmPJ7LAP0wDK3_FSyoj1w4dN_N7epGlumj8NqLhIqgp-ER_pDDFjUgHQqoKc3beiNsutryB8ujzNuqsdoifbbqVVtCObFbWbW3E5_Ip4ilr_HCR-y9xXfPDeP_gYUwgmUtPHQs184w62S-Fme6K0aMg8061Ir25HEPZ1MPy61fAZr7Bf0mrx_eo1VPFMmWTFevP3M0QuBo6slktl2MKLV6_EqC0rOoaX2_bMV-vK"/>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold text-primary">北欧实木单椅</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Nordic Solid Wood Chair</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="bg-secondary/10 text-secondary px-3 py-1 rounded text-label-sm font-label-sm">北欧家居</span>
+</td>
+<td class="px-6 py-5 text-right font-price-display text-price-display">¥1,280.00</td>
+<td class="px-6 py-5 text-right font-body-md text-body-md">12</td>
+<td class="px-6 py-5 text-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-200 text-slate-700 text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span>
+                                    草稿
+                                </span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-on-surface-variant hover:text-secondary transition-colors material-symbols-outlined" data-icon="edit">edit</button>
+<button class="ml-4 text-on-surface-variant hover:text-error transition-colors material-symbols-outlined" data-icon="delete">delete</button>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination Bottom -->
+<div class="px-6 py-4 flex justify-between items-center border-t border-outline-variant bg-surface-container-lowest">
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-secondary text-on-primary font-body-md text-body-md">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors font-body-md text-body-md">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors font-body-md text-body-md">3</button>
+<span class="w-10 h-10 flex items-center justify-center text-on-surface-variant">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors font-body-md text-body-md">16</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-on-surface-variant font-label-sm text-label-sm">前往第</span>
+<input class="w-12 h-10 border border-outline-variant rounded-lg text-center font-body-md text-body-md focus:ring-secondary focus:border-secondary" type="number" value="1"/>
+<span class="text-on-surface-variant font-label-sm text-label-sm">页</span>
+</div>
+</div>
+</div>
+<!-- Dashboard Insights (Asymmetric Bento Grid Element) -->
+<div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="md:col-span-2 bg-primary-container p-8 rounded-2xl text-on-primary flex flex-col justify-between min-h-[200px] relative overflow-hidden group">
+<div class="relative z-10">
+<h4 class="font-headline-md text-headline-md opacity-80">库存分析</h4>
+<p class="font-display-lg text-display-lg mt-2">12个商品即将售罄</p>
+</div>
+<div class="relative z-10">
+<button class="bg-on-primary-container text-primary-container px-6 py-2 rounded-full font-label-sm text-label-sm hover:opacity-90 transition-all">立即补货</button>
+</div>
+<!-- Aesthetic abstract background element -->
+<div class="absolute -right-10 -bottom-10 w-48 h-48 bg-secondary/20 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-700"></div>
+</div>
+<div class="bg-surface-container-highest p-8 rounded-2xl flex flex-col justify-center items-center text-center border border-outline-variant">
+<span class="material-symbols-outlined text-4xl text-secondary mb-4" data-icon="auto_awesome">auto_awesome</span>
+<h4 class="font-headline-md text-headline-md text-primary">智能定价建议</h4>
+<p class="text-on-surface-variant font-body-md text-body-md mt-2">基于跨链市场波动，建议调整 4 件科技类商品价格。</p>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="mt-auto px-gutter py-8 border-t border-on-surface/5 text-center text-on-surface-variant font-label-sm text-label-sm">
+            © 2024 Web3Mall Admin Platform. All rights reserved. 
+        </footer>
+</main>
+<script>
+        // Micro-interactions for table rows
+        document.querySelectorAll('tr').forEach(row => {
+            row.addEventListener('mousedown', () => {
+                row.style.transform = 'scale(0.998)';
+                row.style.transition = 'transform 0.1s ease';
+            });
+            row.addEventListener('mouseup', () => {
+                row.style.transform = 'scale(1)';
+            });
+        });
+
+        // Search bar focus effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('w-80');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('w-80');
+        });
+    </script>
+</body></html>

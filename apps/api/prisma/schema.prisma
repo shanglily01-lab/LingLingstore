@@ -1,0 +1,470 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============= 用户与区域 =============
+
+model User {
+  id               BigInt    @id @default(autoincrement())
+  region           String    @default("CN") // CN | OVERSEAS
+  countryCode      String?   @map("country_code") // ISO 3166-1 alpha-2
+  phone            String?   @unique
+  email            String?   @unique
+  passwordHash     String?   @map("password_hash")
+  displayName      String?   @map("display_name")
+  role             String    @default("user") // user | admin
+  regionVerifiedAt DateTime? @map("region_verified_at")
+  status           Int       @default(1) // 1=正常, 2=风控, 3=禁用
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  shippingAddresses ShippingAddress[]
+  orders            Order[]
+  regionChangeLogs  RegionChangeLog[]
+
+  @@index([region])
+  @@map("users")
+}
+
+model RegionChangeLog {
+  id        BigInt   @id @default(autoincrement())
+  userId    BigInt   @map("user_id")
+  fromRegion String  @map("from_region")
+  toRegion  String   @map("to_region")
+  ipCountry String?  @map("ip_country")
+  userAgent String?  @map("user_agent")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@map("region_change_logs")
+}
+
+// ============= 商品 =============
+
+model ProductCategory {
+  id       BigInt           @id @default(autoincrement())
+  parentId BigInt?          @map("parent_id")
+  nameCn   String?          @map("name_cn")
+  nameEn   String?          @map("name_en")
+  sortOrder Int             @default(0) @map("sort_order")
+
+  parent   ProductCategory?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children ProductCategory[] @relation("CategoryTree")
+  products Product[]
+
+  @@map("product_categories")
+}
+
+model Product {
+  id            BigInt          @id @default(autoincrement())
+  spuNo         String          @unique @map("spu_no")
+  nameCn        String?         @map("name_cn")
+  nameEn        String?         @map("name_en")
+  descriptionCn String?         @map("description_cn")
+  descriptionEn String?         @map("description_en")
+  categoryId    BigInt?         @map("category_id")
+  images        Json?           // [{ url, alt_cn, alt_en, sort }]
+  status        String          @default("active") // active | archived
+  createdAt     DateTime        @default(now()) @map("created_at")
+  updatedAt     DateTime        @updatedAt @map("updated_at")
+
+  category  ProductCategory?   @relation(fields: [categoryId], references: [id])
+  listings  ProductListing[]
+  orderItems OrderItem[]
+
+  @@map("products")
+}
+
+model ProductListing {
+  id                BigInt  @id @default(autoincrement())
+  productId         BigInt  @map("product_id")
+  region            String  // CN | OVERSEAS
+  sku               String
+  price             BigInt  // 单位: 分/cents
+  currency          String  // CNY | USD
+  stock             Int     @default(0)
+  reservedStock     Int     @default(0) @map("reserved_stock")
+  shippingTemplateId BigInt? @map("shipping_template_id")
+  isActive          Boolean @default(true) @map("is_active")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  product Product @relation(fields: [productId], references: [id])
+
+  @@unique([productId, region])
+  @@unique([region, sku])
+  @@index([region, isActive])
+  @@map("product_listings")
+}
+
+// ============= 地址与运费模板 =============
+
+model ShippingAddress {
+  id            BigInt  @id @default(autoincrement())
+  userId        BigInt  @map("user_id")
+  recipientName String  @map("recipient_name")
+  phone         String
+  countryCode   String  @map("country_code")
+  stateProvince String? @map("state_province")
+  city          String
+  district      String?
+  streetAddress String  @map("street_address")
+  postalCode    String? @map("postal_code")
+  isDefault     Boolean @default(false) @map("is_default")
+  idCardNumber  String? @map("id_card_number")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("shipping_addresses")
+}
+
+model ShippingTemplate {
+  id     BigInt @id @default(autoincrement())
+  name   String?
+  region String // CN | OVERSEAS
+  rules  Json   // [{ country_codes, weight_min, weight_max, base_fee, per_kg_fee }]
+
+  @@map("shipping_templates")
+}
+
+// ============= 订单 =============
+
+model Order {
+  id                        BigInt   @id @default(autoincrement())
+  orderNo                   String   @unique @map("order_no")
+  userId                    BigInt   @map("user_id")
+  region                    String   // CN | OVERSEAS
+  status                    String   @default("pending") // pending | paid | expired | cancelled | shipped | completed | refund_pending | refunded | disputed
+  subtotal                  BigInt
+  shippingFee               BigInt   @map("shipping_fee")
+  totalAmount               BigInt   @map("total_amount")
+  currency                  String
+  shippingAddressSnapshot   Json?    @map("shipping_address_snapshot")
+  paymentChannel            String?  @map("payment_channel")
+  paymentProviderOrderId    String?  @map("payment_provider_order_id")
+  paidAt                    DateTime? @map("paid_at")
+  shippingMethod            String?  @map("shipping_method")
+  trackingNo                String?  @map("tracking_no")
+  shippedAt                 DateTime? @map("shipped_at")
+  completedAt               DateTime? @map("completed_at")
+  expiresAt                 DateTime @map("expires_at")
+  createdAt                 DateTime @default(now()) @map("created_at")
+  updatedAt                 DateTime @updatedAt @map("updated_at")
+
+  user         User             @relation(fields: [userId], references: [id])
+  items        OrderItem[]
+  paymentIntents PaymentIntent[]
+  refunds      Refund[]
+  shipmentTrackings ShipmentTracking[]
+
+  @@index([status, expiresAt])
+  @@index([userId, createdAt(sort: Desc)])
+  @@index([region, status])
+  @@map("orders")
+}
+
+model OrderItem {
+  id              BigInt @id @default(autoincrement())
+  orderId         BigInt @map("order_id")
+  productId       BigInt? @map("product_id")
+  listingId       BigInt? @map("listing_id")
+  productSnapshot Json   @map("product_snapshot")
+  quantity        Int
+  unitPrice       BigInt @map("unit_price")
+  subtotal        BigInt
+
+  order   Order   @relation(fields: [orderId], references: [id])
+  product Product? @relation(fields: [productId], references: [id])
+
+  @@index([orderId])
+  @@map("order_items")
+}
+
+// ============= 支付 =============
+
+model PaymentIntent {
+  id               BigInt   @id @default(autoincrement())
+  orderId          BigInt   @map("order_id")
+  channel          String   // alipay | wechat | stripe | paypal | unionpay
+  providerOrderId  String?  @map("provider_order_id")
+  amount           BigInt
+  currency         String
+  status           String   @default("created") // created | pending | success | failed | expired
+  rawCreateResponse Json?   @map("raw_create_response")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  order Order @relation(fields: [orderId], references: [id])
+
+  @@index([orderId])
+  @@index([channel, providerOrderId])
+  @@map("payment_intents")
+}
+
+model PaymentCallback {
+  id               BigInt   @id @default(autoincrement())
+  channel          String
+  providerOrderId  String   @map("provider_order_id")
+  orderNo          String   @map("order_no")
+  amount           BigInt?
+  currency         String?
+  status           String?
+  rawPayload       Json     @map("raw_payload")
+  receivedAt       DateTime @default(now()) @map("received_at")
+
+  @@unique([channel, providerOrderId, status])
+  @@index([orderNo])
+  @@map("payment_callbacks")
+}
+
+model Refund {
+  id               BigInt   @id @default(autoincrement())
+  refundNo         String   @unique @map("refund_no")
+  orderId          BigInt   @map("order_id")
+  amount           BigInt
+  currency         String
+  reason           String?
+  status           String   @default("pending") // pending | approved | rejected | sent | refunded
+  channel          String?
+  providerRefundId String?  @map("provider_refund_id")
+  approvedBy       BigInt?  @map("approved_by")
+  approvedAt       DateTime? @map("approved_at")
+  refundedAt       DateTime? @map("refunded_at")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  order Order @relation(fields: [orderId], references: [id])
+
+  @@map("refunds")
+}
+
+// ============= 物流 =============
+
+model ShipmentTracking {
+  id           BigInt   @id @default(autoincrement())
+  orderId      BigInt   @map("order_id")
+  carrier      String?  // sf | ems | 17track-aggregated
+  trackingNo   String   @map("tracking_no")
+  status       String?
+  events       Json?    // [{ time, location, description }]
+  lastSyncedAt DateTime? @map("last_synced_at")
+
+  order Order @relation(fields: [orderId], references: [id])
+
+  @@unique([orderId, trackingNo])
+  @@map("shipment_trackings")
+}
+
+// ============= 外贸运营 =============
+
+model TradePartner {
+  id          BigInt   @id @default(autoincrement())
+  name        String
+  type        String   // freight_forwarder | customs_broker | warehouse_3pl | other
+  contactName String?  @map("contact_name")
+  phone       String?
+  email       String?
+  wechat      String?
+  address     String?
+  notes       String?
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  shipmentsAsFreight TradeShipment[] @relation("FreightForwarder")
+  shipmentsAsCustoms TradeShipment[] @relation("CustomsBroker")
+  shipmentsAsWarehouse TradeShipment[] @relation("Warehouse3pl")
+
+  @@index([type, isActive])
+  @@map("trade_partners")
+}
+
+model TradeShipment {
+  id                  BigInt    @id @default(autoincrement())
+  shipmentNo          String    @unique @map("shipment_no")
+  title               String
+  status              String    @default("planning")
+  // planning | procuring | ready_export | in_transit | at_port | customs_clearing
+  // | customs_cleared | to_warehouse | warehouse_received | shelved | selling | completed | cancelled
+  destinationCountry  String    @default("BR") @map("destination_country")
+  destinationCity     String?   @map("destination_city")
+  portOfLoading       String?   @map("port_of_loading")
+  portOfDischarge     String?   @map("port_of_discharge")
+  transportMode       String    @default("sea_lcl") @map("transport_mode") // sea_lcl | sea_fcl
+  containerNo         String?   @map("container_no")
+  blNo                String?   @map("bl_no")
+  ncmCode             String?   @map("ncm_code")
+  cifValueUsd         Decimal?  @map("cif_value_usd") @db.Decimal(12, 2)
+  estimatedArrival    DateTime? @map("estimated_arrival")
+  actualArrival       DateTime? @map("actual_arrival")
+  customsClearedAt    DateTime? @map("customs_cleared_at")
+  warehouseReceivedAt DateTime? @map("warehouse_received_at")
+  freightForwarderId  BigInt?   @map("freight_forwarder_id")
+  customsBrokerId     BigInt?   @map("customs_broker_id")
+  warehouse3plId      BigInt?   @map("warehouse_3pl_id")
+  notes               String?
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
+
+  freightForwarder TradePartner? @relation("FreightForwarder", fields: [freightForwarderId], references: [id])
+  customsBroker    TradePartner? @relation("CustomsBroker", fields: [customsBrokerId], references: [id])
+  warehouse3pl     TradePartner? @relation("Warehouse3pl", fields: [warehouse3plId], references: [id])
+  lines            TradeShipmentLine[]
+  tasks            TradeTask[]
+  documents        TradeDocument[]
+
+  @@index([status, createdAt(sort: Desc)])
+  @@map("trade_shipments")
+}
+
+model TradeShipmentLine {
+  id           BigInt  @id @default(autoincrement())
+  shipmentId   BigInt  @map("shipment_id")
+  sku          String
+  productName  String  @map("product_name")
+  ean          String?
+  quantity     Int
+  cartons      Int?
+  unitsPerCarton Int?  @map("units_per_carton")
+  unitCostCny  Decimal? @map("unit_cost_cny") @db.Decimal(10, 2)
+  notes        String?
+
+  shipment TradeShipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+
+  @@index([shipmentId])
+  @@map("trade_shipment_lines")
+}
+
+model TradeTask {
+  id          BigInt    @id @default(autoincrement())
+  shipmentId  BigInt    @map("shipment_id")
+  stage       String    // prep | procurement | export | sea_freight | customs | warehouse | sales | fulfillment
+  title       String
+  description String?
+  status      String    @default("pending") // pending | in_progress | done | blocked | skipped
+  sortOrder   Int       @default(0) @map("sort_order")
+  dueDate     DateTime? @map("due_date")
+  completedAt DateTime? @map("completed_at")
+  notes       String?
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  shipment TradeShipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+
+  @@index([shipmentId, stage, sortOrder])
+  @@map("trade_tasks")
+}
+
+model TradeDocument {
+  id         BigInt   @id @default(autoincrement())
+  shipmentId BigInt   @map("shipment_id")
+  docType    String   @map("doc_type") // invoice | packing_list | bill_of_lading | asn | certificate | other
+  title      String
+  fileUrl    String?  @map("file_url")
+  notes      String?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  shipment TradeShipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+
+  @@index([shipmentId])
+  @@map("trade_documents")
+}
+
+model TradeWarehouseSku {
+  id              BigInt   @id @default(autoincrement())
+  sku             String   @unique
+  productName     String   @map("product_name")
+  ean             String?
+  quantityOnHand  Int      @default(0) @map("quantity_on_hand")
+  quantityReserved Int     @default(0) @map("quantity_reserved")
+  warehouseName   String?  @map("warehouse_name")
+  notes           String?
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  platformListings TradePlatformListing[]
+  fulfillmentLines TradeFulfillmentLine[]
+
+  @@map("trade_warehouse_skus")
+}
+
+model TradePlatformListing {
+  id              BigInt  @id @default(autoincrement())
+  warehouseSkuId  BigInt  @map("warehouse_sku_id")
+  platform        String  // amazon_br | mercado_livre
+  platformSkuId   String? @map("platform_sku_id")
+  asin            String?
+  listingUrl      String? @map("listing_url")
+  priceBrl        Decimal? @map("price_brl") @db.Decimal(10, 2)
+  isActive        Boolean @default(true) @map("is_active")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  warehouseSku TradeWarehouseSku @relation(fields: [warehouseSkuId], references: [id], onDelete: Cascade)
+
+  @@unique([warehouseSkuId, platform])
+  @@map("trade_platform_listings")
+}
+
+model TradeFulfillmentOrder {
+  id              BigInt    @id @default(autoincrement())
+  orderNo         String    @unique @map("order_no")
+  platform        String    // amazon_br | mercado_livre
+  platformOrderId String?   @map("platform_order_id")
+  status          String    @default("pending")
+  // pending | pushed_to_warehouse | shipped | completed | cancelled
+  recipientName   String?   @map("recipient_name")
+  recipientPhone  String?   @map("recipient_phone")
+  shippingAddress String?   @map("shipping_address")
+  trackingNo      String?   @map("tracking_no")
+  carrier         String?
+  pushedAt        DateTime? @map("pushed_at")
+  shippedAt       DateTime? @map("shipped_at")
+  notes           String?
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  lines TradeFulfillmentLine[]
+
+  @@index([status, createdAt(sort: Desc)])
+  @@index([platform, status])
+  @@map("trade_fulfillment_orders")
+}
+
+model TradeFulfillmentLine {
+  id             BigInt @id @default(autoincrement())
+  fulfillmentId  BigInt @map("fulfillment_id")
+  warehouseSkuId BigInt @map("warehouse_sku_id")
+  quantity       Int
+
+  fulfillment  TradeFulfillmentOrder @relation(fields: [fulfillmentId], references: [id], onDelete: Cascade)
+  warehouseSku TradeWarehouseSku     @relation(fields: [warehouseSkuId], references: [id])
+
+  @@index([fulfillmentId])
+  @@map("trade_fulfillment_lines")
+}
+
+// ============= 审计 =============
+
+model AuditLog {
+  id         BigInt   @id @default(autoincrement())
+  actorType  String   @map("actor_type") // user | admin | system
+  actorId    BigInt?  @map("actor_id")
+  action     String
+  targetType String?  @map("target_type")
+  targetId   String?  @map("target_id")
+  payload    Json?
+  ipAddress  String?  @map("ip_address")
+  userAgent  String?  @map("user_agent")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@index([actorType, actorId, createdAt(sort: Desc)])
+  @@map("audit_logs")
+}

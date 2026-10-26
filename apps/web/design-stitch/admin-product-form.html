@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Web3Mall - 新增商品 Add New Product</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#e5eeff",
+                        "on-background": "#0b1c30",
+                        "surface-variant": "#d3e4fe",
+                        "outline-variant": "#c6c6cd",
+                        "on-secondary-fixed": "#0f0069",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#c4c7c9",
+                        "surface-container-high": "#dce9ff",
+                        "on-error-container": "#93000a",
+                        "background": "#f8f9ff",
+                        "primary-container": "#131b2e",
+                        "tertiary-fixed": "#e0e3e5",
+                        "secondary-container": "#645efb",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#cbdbf5",
+                        "on-tertiary-fixed": "#191c1e",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "inverse-primary": "#bec6e0",
+                        "primary-fixed": "#dae2fd",
+                        "on-primary-container": "#7c839b",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#191c1e",
+                        "secondary": "#4b41e1",
+                        "inverse-surface": "#213145",
+                        "outline": "#76777d",
+                        "surface-tint": "#565e74",
+                        "surface-container-low": "#eff4ff",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-secondary-container": "#fffbff",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#e2dfff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#45464d",
+                        "surface": "#f8f9ff",
+                        "primary": "#000000",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary-container": "#818486",
+                        "on-primary-fixed": "#131b2e",
+                        "tertiary": "#000000",
+                        "on-tertiary-fixed-variant": "#444749",
+                        "secondary-fixed-dim": "#c3c0ff",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed-variant": "#3323cc",
+                        "on-primary-fixed-variant": "#3f465c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "base": "8px",
+                        "margin-desktop": "40px",
+                        "margin-mobile": "16px",
+                        "section-gap": "80px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "price-display": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "price-display": ["20px", {"lineHeight": "1", "fontWeight": "700"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "label-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #cbd5e1; }
+        .glass-effect { backdrop-filter: blur(12px); background-color: rgba(255, 255, 255, 0.8); }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- SideNavBar (The Anchor) -->
+<aside class="fixed left-0 top-0 h-full flex flex-col h-screen w-64 border-r border-outline-variant bg-surface-container-lowest z-50">
+<div class="px-6 py-8">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Web3Mall</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant opacity-70">Global Admin</p>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary font-bold border-r-4 border-secondary bg-surface-container-low transition-all scale-[0.98]" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-sm">Products</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">category</span>
+<span class="font-label-sm">Categories</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-sm">Orders</span>
+</a>
+</nav>
+<div class="px-4 py-6 border-t border-outline-variant space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-sm">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar (The Anchor) -->
+<header class="sticky top-0 z-40 w-full flex justify-between items-center px-gutter h-16 bg-surface/80 backdrop-blur-md border-b border-on-surface/5">
+<div class="flex items-center gap-6">
+<nav class="flex items-center gap-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-sm" href="#">Analytics</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-sm" href="#">Logistics</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-sm" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-surface-container overflow-hidden border border-outline-variant">
+<img alt="Admin Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeW-SvwT1JC3hMLDAoj1bKb1C0798uZsjUl21lwemst3y7rZliCZ1cw5mrzjWq7xxqeiCwoNgS-NXZxdAKXcTlCHviRo26-Vx6ZN3ru_le2WwUCosKZTXks06vmO55lfdsUxXk3q9TcY2SwzwIW2Zl-RBx9sYSAxMQ_JxaHOWPg_wahWHiia7R8foT5e34vJBUlEjHFInjB9G-oVslX3RpQTMF7m-mwDdFsnuUSzZDBivZai44_NCqPgMAJuPc1ej28I0mufePGO-Q"/>
+</div>
+</div>
+</header>
+<!-- Form Content -->
+<div class="max-w-4xl mx-auto px-margin-desktop py-12">
+<div class="mb-10">
+<div class="flex items-center gap-2 text-secondary mb-2">
+<span class="material-symbols-outlined" style="font-size: 18px;">arrow_back</span>
+<span class="font-label-sm">返回商品列表 Back to Products</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-background">新增商品 <span class="text-on-surface-variant font-normal">Add New Product</span></h2>
+<p class="text-on-surface-variant font-body-md mt-2">创建并发布新的 Web3 全球贸易商品到您的管理目录。</p>
+</div>
+<form class="space-y-8">
+<!-- Section 1: Basic Information -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-8 shadow-sm">
+<div class="flex items-center gap-3 mb-6 border-b border-surface-container-low pb-4">
+<span class="material-symbols-outlined text-secondary">info</span>
+<h3 class="font-headline-md text-on-surface" style="font-size: 18px;">基本信息 <span class="text-on-surface-variant font-normal">Basic Information</span></h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-2">
+<label class="block font-label-sm text-on-surface-variant">商品名称 (中文) <span class="text-secondary opacity-60">Product Name (CN)</span></label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all" placeholder="例如：限量版 Web3 硬钱包" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="block font-label-sm text-on-surface-variant">Product Name (EN) <span class="text-secondary opacity-60">商品名称 (英文)</span></label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all" placeholder="e.g. Limited Edition Web3 Hardware Wallet" type="text"/>
+</div>
+<div class="space-y-2 md:col-span-2">
+<label class="block font-label-sm text-on-surface-variant">商品描述 (中文) <span class="text-secondary opacity-60">Description (CN)</span></label>
+<textarea class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all resize-none" placeholder="详细描述商品的特点、规格及用途..." rows="4"></textarea>
+</div>
+<div class="space-y-2 md:col-span-2">
+<label class="block font-label-sm text-on-surface-variant">Description (EN) <span class="text-secondary opacity-60">商品描述 (英文)</span></label>
+<textarea class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all resize-none" placeholder="Detailed product features, specifications, and use cases..." rows="4"></textarea>
+</div>
+</div>
+</section>
+<!-- Section 2: Category & Media -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-8 shadow-sm">
+<div class="flex items-center gap-3 mb-6 border-b border-surface-container-low pb-4">
+<span class="material-symbols-outlined text-secondary">collections</span>
+<h3 class="font-headline-md text-on-surface" style="font-size: 18px;">类目与媒体 <span class="text-on-surface-variant font-normal">Category &amp; Media</span></h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-2">
+<label class="block font-label-sm text-on-surface-variant">所属类目 <span class="text-secondary opacity-60">Category</span></label>
+<select class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all">
+<option>电子产品 Electronics</option>
+<option>区块链硬件 Blockchain Hardware</option>
+<option>数字艺术品 Digital Collectibles</option>
+<option>时尚配件 Fashion Accessories</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="block font-label-sm text-on-surface-variant">图片地址 <span class="text-secondary opacity-60">Image URL</span></label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-outline text-[20px]">link</span>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg pl-10 pr-4 py-3 focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all" placeholder="https://example.com/product-image.jpg" type="text"/>
+</div>
+</div>
+<div class="md:col-span-2">
+<div class="w-full aspect-video rounded-lg border-2 border-dashed border-outline-variant bg-surface-container-low flex flex-col items-center justify-center group hover:border-secondary transition-all cursor-pointer">
+<img class="w-full h-full object-cover rounded-lg hidden group-[.preview]:block" data-alt="A high-end product photography scene for a minimalist technology gadget. The device sits on a pristine white marble surface under soft studio lighting, casting delicate shadows. The color palette is composed of cold metallic silvers and deep navies, reflecting a modern and premium electronic aesthetic. The background is a clean, slightly blurred laboratory environment, emphasizing precision and innovation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFqrlvUD3Jgw-8_3RnvkDZo2HMQII35TM5GAFV4Mm-BLygWUNuV8nzrs3mq7kIeTlyV4I402qPZjU8pRVwVKxS2WgY-tQkEYOlPVN5r7Ak09aETujDOj-i7z8RM_XwOeyIhMV5Sti3bYUn21xvUVkfmYa4QTyrMyhV0SoN0pSp9z9DD1RHSqikakmVu7fpW99qeJmS30xnKksqcOQGiIAeVy4NOO69Z4k4lbcUe3izXpzj6TAlEhVwtK3KtP-LR27Sx4Bq6eCRmmpv"/>
+<div class="flex flex-col items-center group-[.preview]:hidden">
+<span class="material-symbols-outlined text-[48px] text-outline opacity-40 mb-2">image</span>
+<p class="font-label-sm text-on-surface-variant">图片预览区 <span class="block text-[12px] opacity-60">Image Preview Area</span></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Pricing & Inventory -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- CN Market -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-8 shadow-sm">
+<div class="flex items-center gap-3 mb-6 border-b border-surface-container-low pb-4">
+<span class="material-symbols-outlined text-secondary">payments</span>
+<h3 class="font-headline-md text-on-surface" style="font-size: 18px;">国内市场 <span class="text-on-surface-variant font-normal">CN Market</span></h3>
+</div>
+<div class="space-y-6">
+<div class="space-y-2">
+<label class="block font-label-sm text-on-surface-variant">SKU 编码 <span class="text-secondary opacity-60">Stock Keeping Unit</span></label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary outline-none" placeholder="CN-PROD-001" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="block font-label-sm text-on-surface-variant">单价 (CNY) <span class="text-secondary opacity-60">Price</span></label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary outline-none" placeholder="0.00" type="number"/>
+</div>
+<div class="space-y-2">
+<label class="block font-label-sm text-on-surface-variant">库存 <span class="text-secondary opacity-60">Stock</span></label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary outline-none" placeholder="0" type="number"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Overseas Market -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-8 shadow-sm">
+<div class="flex items-center gap-3 mb-6 border-b border-surface-container-low pb-4">
+<span class="material-symbols-outlined text-secondary">public</span>
+<h3 class="font-headline-md text-on-surface" style="font-size: 18px;">海外市场 <span class="text-on-surface-variant font-normal">Overseas Market</span></h3>
+</div>
+<div class="space-y-6">
+<div class="space-y-2">
+<label class="block font-label-sm text-on-surface-variant">SKU 编码 <span class="text-secondary opacity-60">Stock Keeping Unit</span></label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary outline-none" placeholder="INTL-PROD-001" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="block font-label-sm text-on-surface-variant">单价 (USD) <span class="text-secondary opacity-60">Price</span></label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary outline-none" placeholder="0.00" type="number"/>
+</div>
+<div class="space-y-2">
+<label class="block font-label-sm text-on-surface-variant">库存 <span class="text-secondary opacity-60">Stock</span></label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-secondary outline-none" placeholder="0" type="number"/>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer Actions -->
+<footer class="flex items-center justify-end gap-4 pt-8 border-t border-outline-variant/30">
+<button class="px-8 py-3 rounded-lg border border-primary text-primary font-label-sm hover:bg-surface-container-low transition-all active:scale-95" type="button">
+                        取消 <span class="ml-1 opacity-60">Cancel</span>
+</button>
+<button class="px-8 py-3 rounded-lg bg-primary text-on-primary font-label-sm shadow-xl hover:opacity-90 transition-all active:scale-95 flex items-center gap-2" type="submit">
+<span class="material-symbols-outlined" style="font-size: 20px;">add_circle</span>
+                        创建商品 <span class="ml-1 opacity-60 text-[12px]">Create Product</span>
+</button>
+</footer>
+</form>
+</div>
+<!-- Background Atmospheric Element -->
+<div class="fixed bottom-0 right-0 p-10 pointer-events-none opacity-5">
+<span class="material-symbols-outlined text-[320px]">add_shopping_cart</span>
+</div>
+</main>
+<script>
+        // Micro-interactions
+        document.querySelectorAll('input, textarea, select').forEach(el => {
+            el.addEventListener('focus', () => {
+                el.parentElement.classList.add('scale-[1.01]');
+            });
+            el.addEventListener('blur', () => {
+                el.parentElement.classList.remove('scale-[1.01]');
+            });
+        });
+
+        // Simple form submission feedback
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> 正在创建...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> 已创建 Success';
+                btn.classList.replace('bg-primary', 'bg-secondary');
+            }, 1500);
+        });
+    </script>
+</body></html>

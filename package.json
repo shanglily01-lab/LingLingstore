@@ -1,0 +1,38 @@
+{
+  "name": "web3-mall",
+  "version": "1.0.0",
+  "private": true,
+  "description": "跨境法币商城 monorepo - 国内主体的双轨制跨境电商",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "pnpm -r --parallel run dev",
+    "dev:web": "pnpm --filter web dev",
+    "dev:api": "pnpm --filter api dev",
+    "build": "pnpm -r run build",
+    "build:web": "pnpm --filter web build",
+    "build:api": "pnpm --filter api build",
+    "lint": "pnpm -r run lint",
+    "typecheck": "pnpm -r run typecheck",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,yaml,yml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,yaml,yml}\"",
+    "clean": "pnpm -r exec rimraf node_modules dist .next .turbo *.tsbuildinfo && rimraf node_modules",
+    "db:push": "pnpm --filter api exec prisma db push",
+    "db:seed": "pnpm --filter api run db:seed",
+    "stitch:pull": "node scripts/stitch-pull-designs.mjs",
+    "stitch:pull:only": "node scripts/stitch-pull-designs.mjs --only"
+  },
+  "devDependencies": {
+    "pnpm": "9.15.0",
+    "@google/stitch-sdk": "^0.3.5",
+    "@typescript-eslint/eslint-plugin": "^8.5.0",
+    "@typescript-eslint/parser": "^8.5.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.5.4"
+  }
+}

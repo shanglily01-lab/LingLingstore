@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9ff;
+            color: #0b1c30;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-header {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .editorial-shadow {
+            box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.05);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface": "#f8f9ff",
+                      "tertiary-fixed": "#e0e3e5",
+                      "secondary-fixed-dim": "#c3c0ff",
+                      "tertiary-container": "#191c1e",
+                      "surface-bright": "#f8f9ff",
+                      "outline-variant": "#c6c6cd",
+                      "primary-fixed": "#dae2fd",
+                      "on-surface-variant": "#45464d",
+                      "surface-container-lowest": "#ffffff",
+                      "on-background": "#0b1c30",
+                      "surface-container-high": "#dce9ff",
+                      "on-surface": "#0b1c30",
+                      "on-tertiary": "#ffffff",
+                      "primary-fixed-dim": "#bec6e0",
+                      "on-error": "#ffffff",
+                      "primary": "#000000",
+                      "inverse-primary": "#bec6e0",
+                      "surface-container-low": "#eff4ff",
+                      "on-primary-fixed": "#131b2e",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "on-tertiary-fixed-variant": "#444749",
+                      "inverse-surface": "#213145",
+                      "tertiary": "#000000",
+                      "surface-container-highest": "#d3e4fe",
+                      "secondary-fixed": "#e2dfff",
+                      "on-tertiary-fixed": "#191c1e",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-container": "#fffbff",
+                      "on-error-container": "#93000a",
+                      "surface-tint": "#565e74",
+                      "tertiary-fixed-dim": "#c4c7c9",
+                      "on-secondary-fixed-variant": "#3323cc",
+                      "primary-container": "#131b2e",
+                      "outline": "#76777d",
+                      "surface-dim": "#cbdbf5",
+                      "on-primary-container": "#7c839b",
+                      "inverse-on-surface": "#eaf1ff",
+                      "secondary-container": "#645efb",
+                      "error-container": "#ffdad6",
+                      "surface-container": "#e5eeff",
+                      "error": "#ba1a1a",
+                      "background": "#f8f9ff",
+                      "on-tertiary-container": "#818486",
+                      "on-secondary-fixed": "#0f0069",
+                      "secondary": "#4b41e1",
+                      "on-primary": "#ffffff",
+                      "surface-variant": "#d3e4fe"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "container-max": "1280px",
+                      "margin-desktop": "40px",
+                      "base": "8px",
+                      "margin-mobile": "16px",
+                      "section-gap": "80px"
+              },
+              "fontFamily": {
+                      "label-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "display-lg-mobile": ["Inter"],
+                      "price-display": ["Inter"],
+                      "body-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "label-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "price-display": ["20px", {"lineHeight": "1", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+              }
+            },
+          }
+        }
+    </script>
+</head>
+<body class="bg-surface">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-surface-container/80 backdrop-blur-xl border-b border-outline-variant/10">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex justify-between items-center h-20">
+<div class="flex items-center gap-12">
+<a class="font-headline-md text-headline-md font-bold tracking-tight text-primary" href="#">Web3Mall</a>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-sm text-label-sm md:font-body-md md:text-body-md" href="#">商品</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm md:font-body-md md:text-body-md" href="#">购物车</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm md:font-body-md md:text-body-md" href="#">订单</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm md:font-body-md md:text-body-md" href="#">登录</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative hidden lg:block">
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant/20 rounded-lg focus:ring-1 focus:ring-secondary focus:border-secondary outline-none w-64 text-body-md" placeholder="搜索全球好物..." type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-container-low/50 rounded-full transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+<button class="p-2 hover:bg-surface-container-low/50 rounded-full transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-20">
+<!-- Hero Section -->
+<section class="relative h-[819px] flex items-center overflow-hidden bg-white">
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-r from-white via-white/40 to-transparent z-10"></div>
+<img class="w-full h-full object-cover" data-alt="A high-end, editorial fashion and lifestyle photograph featuring minimalist luxury items like a designer watch and sleek tech accessories. The lighting is soft and natural, coming from a large window, creating a clean light-mode aesthetic with expansive whitespace. The scene is calm, sophisticated, and global, with a focus on premium materials and precision craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAk_IE-CwPwcT8Fl1wjB9vEsR_Mv9mNUy-JOTmBMw-GtDrrudUpvey9lbwparHPJi3oOBZAkZNRr1OanoFG1dcKSuLGw11aAxFZxOACCqLQp7HwaE7Mi43W7HW0unYoywHgmghsgckWaZJrdy9Y5MbwlmkziTOLWUs1HPqa85Exc6ev58C_pTq-zqyPClvyeBLP8k-1VixSFHhVChhqzqxsaJHboLBoLbBRaQ2wlsPlRrFgwIfhmdSeDcbofg8vAhDiOnCnsT9o6GFy"/>
+</div>
+<div class="relative z-20 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop w-full">
+<div class="max-w-2xl">
+<h1 class="font-display-lg text-display-lg mb-6 text-on-background">双轨制跨境法币商城</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 leading-relaxed">
+                        链接全球精品，重塑跨境消费体验。我们为您提供便捷的法币结算、
+                        极速清关与正品保障，让每一笔交易都充满温度与科技的从容。
+                    </p>
+<div class="flex gap-4">
+<button class="bg-primary text-on-primary px-8 py-4 font-label-sm text-label-sm hover:opacity-90 transition-opacity editorial-shadow">浏览商品</button>
+<button class="border border-primary text-primary px-8 py-4 font-label-sm text-label-sm hover:bg-surface-container-low transition-colors">注册账号</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Trending Section -->
+<section class="py-section-gap max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="flex justify-between items-end mb-12">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">热门推荐</h2>
+<p class="text-on-surface-variant font-body-md text-body-md mt-2">本月全球最受关注的精品好物</p>
+</div>
+<a class="text-secondary font-label-sm text-label-sm flex items-center gap-2" href="#">查看全部 <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Product Card 1 -->
+<div class="group border border-outline-variant/20 bg-white overflow-hidden transition-all duration-300 hover:editorial-shadow">
+<div class="aspect-[4/5] overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A close-up shot of a sleek, minimalist titanium smartphone leaning against a piece of brutalist stone. The lighting is sharp, creating dramatic highlights and shadows, emphasizing the premium texture of the metal. The overall vibe is futuristic yet grounded, following a strict monochrome palette with soft ambient light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEWsLp9tFx--Rw0eJ1aNXZqGocC8jLfH0gnupPZVCewkV0YCrqBOnOY4g8SJfx3jaxm8no4XZ7ee59ibJ0XkL4amq6hldHn1YULY_3PSi-HJKX4C8_WX4whSB77VvBLHiGDyTli_l5qzLNi-DPT1n58Xdp-k5L12SlMkhU3dOkcLTvwlAuXSj7GbLYld77Z-bptmlTP0wA7suAUVcBzywgLwPjLKxMKRAexiNyG5p4ZKH3KiyK6Zt7XQpoPypdzDE8IwqjdVzciN07"/>
+</div>
+<div class="p-6">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant/60 font-bold">Premium Tech</span>
+<h3 class="font-headline-md text-body-md mt-2 mb-4">旗舰系列 智能数字终端</h3>
+<div class="flex justify-between items-center">
+<span class="text-error font-price-display text-price-display">¥ 8,999</span>
+<button class="p-2 bg-surface-container hover:bg-secondary-container hover:text-on-secondary transition-colors">
+<span class="material-symbols-outlined" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="group border border-outline-variant/20 bg-white overflow-hidden transition-all duration-300 hover:editorial-shadow">
+<div class="aspect-[4/5] overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="An editorial fashion photograph of a structured, deep navy wool coat hanging on a minimalist brass rack. The background is a clean white studio setting with soft, diffused shadows. The focus is on the exquisite fabric texture and precise tailoring, conveying a sense of quiet luxury and timeless style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2ppC592Mk3DJwoEUr8g88X6zmCwuJDREZ84Z_fKLrpss8JctV_9uuehYN0YEIaaBuQAxZl40vaMHoqxdhipZlCuIAvMtfW9Ycw74INv1v6sUo1OMmS_-snR7ntQBDMwCa85avVaBjmSlkDX_C-g-xpc-wo81sjC5CvfGgfXDX3T2xpeeMIzvowNVXMJPtJvRgVsGG4lVfQQ4qNcd7k0JWqRSMnHj1PhOLkZ-eEPIaqsJJdZIlDaGvLjHiO3zpzd6mHVZkVgn5n53Z"/>
+</div>
+<div class="p-6">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant/60 font-bold">Editorial Fashion</span>
+<h3 class="font-headline-md text-body-md mt-2 mb-4">意式极简 精纺羊毛外套</h3>
+<div class="flex justify-between items-center">
+<span class="text-error font-price-display text-price-display">¥ 3,200</span>
+<button class="p-2 bg-surface-container hover:bg-secondary-container hover:text-on-secondary transition-colors">
+<span class="material-symbols-outlined" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="group border border-outline-variant/20 bg-white overflow-hidden transition-all duration-300 hover:editorial-shadow">
+<div class="aspect-[4/5] overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A premium artisanal fragrance bottle made of heavy, smoked glass, positioned on a polished marble surface. Soft rays of morning light hit the bottle, creating beautiful caustic patterns. The atmosphere is serene and luxurious, with a muted color palette of greys, whites, and deep navy accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOzBysFd7z0pAcVE-bnPr3XTJPr2BwSIcvgyw8BPAVZzMuv_7ehiXPwOSTn8fC9EAnORk1oJEk6MDKcKQRchvFE2KAmlveo7Hsx-hBPVxwRozva-kn5-2LfHsKbvtOjMDKyXRk76dRXh58w1eh7_J4AyIuHzZV_KzTXkLqUQlnmSZ0BsHOOSCo1s-QL5_lNZACsv_fCx2KHUk7hR986LDhhe87jTIUMwsn5ZM4NKLHojXBwqWwUAk6_aJCpmeMBhm0v4gfIOA7ZboV"/>
+</div>
+<div class="p-6">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant/60 font-bold">Global Sourcing</span>
+<h3 class="font-headline-md text-body-md mt-2 mb-4">北欧定制 系列香氛套装</h3>
+<div class="flex justify-between items-center">
+<span class="text-error font-price-display text-price-display">¥ 1,280</span>
+<button class="p-2 bg-surface-container hover:bg-secondary-container hover:text-on-secondary transition-colors">
+<span class="material-symbols-outlined" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="group border border-outline-variant/20 bg-white overflow-hidden transition-all duration-300 hover:editorial-shadow">
+<div class="aspect-[4/5] overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Advanced noise-canceling headphones with a matte black finish, shown in a clean, professional studio environment. The image uses high-key lighting to emphasize the sleek ergonomic curves and high-quality synthetic leather details. The design is modern and minimalist, targeting a professional audience." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBY0vaf8tHjtjYT23KQVeLZuigeP9kbAPvIPwwEhF_GzDCsB86r96ePRkFT9fijHWWQVK8rCsnybjWT6PB61d0K_G_Q4gkul1RgVz6kxJTZX4J3JfFf54DPiLG5X7LwmlfeClL2RDJgtmn3XF9CdLwCI3_9KPGqaMUvoWsDxGeGcklhtGBRxf2FjXycdP-RnuUY-9Rrp0WcYRAvZAXjFsqN9o5JgHD882c-vlaxM7LeDT_IjxvVFkGJFeOWvXT7d8TUWptZvGMnXbTV"/>
+</div>
+<div class="p-6">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant/60 font-bold">Premium Tech</span>
+<h3 class="font-headline-md text-body-md mt-2 mb-4">无界系列 降噪无线耳机</h3>
+<div class="flex justify-between items-center">
+<span class="text-error font-price-display text-price-display">¥ 2,499</span>
+<button class="p-2 bg-surface-container hover:bg-secondary-container hover:text-on-secondary transition-colors">
+<span class="material-symbols-outlined" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Why Choose Us Section -->
+<section class="py-section-gap bg-surface-container-low">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="text-center mb-16">
+<h2 class="font-headline-md text-headline-md text-on-surface">为什么选择我们</h2>
+<p class="text-on-surface-variant font-body-md text-body-md mt-4">为您提供全方位的跨境购物保障体系</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-base">
+<!-- Feature 1 -->
+<div class="p-10 bg-white border border-outline-variant/10 hover:border-secondary/30 transition-colors">
+<span class="material-symbols-outlined text-secondary text-4xl mb-6" data-icon="public">public</span>
+<h4 class="font-headline-md text-body-lg font-bold mb-4">全球直采</h4>
+<p class="text-on-surface-variant font-body-md leading-relaxed">深入货源地，与全球品牌方及一级代理直接合作，减少中间环节，确保价格优势。</p>
+</div>
+<!-- Feature 2 -->
+<div class="p-10 bg-white border border-outline-variant/10 hover:border-secondary/30 transition-colors">
+<span class="material-symbols-outlined text-secondary text-4xl mb-6" data-icon="verified">verified</span>
+<h4 class="font-headline-md text-body-lg font-bold mb-4">官方正品</h4>
+<p class="text-on-surface-variant font-body-md leading-relaxed">每一件商品均经过严格的入仓检验，溯源码全程可追溯，100%正品承诺。</p>
+</div>
+<!-- Feature 3 -->
+<div class="p-10 bg-white border border-outline-variant/10 hover:border-secondary/30 transition-colors">
+<span class="material-symbols-outlined text-secondary text-4xl mb-6" data-icon="local_shipping">local_shipping</span>
+<h4 class="font-headline-md text-body-lg font-bold mb-4">极速物流</h4>
+<p class="text-on-surface-variant font-body-md leading-relaxed">配合多地自营保税仓，下单后极速出库，提供顺丰、UPS等高效跨境物流体验。</p>
+</div>
+<!-- Feature 4 -->
+<div class="p-10 bg-white border border-outline-variant/10 hover:border-secondary/30 transition-colors">
+<span class="material-symbols-outlined text-secondary text-4xl mb-6" data-icon="security">security</span>
+<h4 class="font-headline-md text-body-lg font-bold mb-4">安全支付</h4>
+<p class="text-on-surface-variant font-body-md leading-relaxed">支持主流法币支付通道，银行级数据加密技术，保障每一笔资金往来安全合规。</p>
+</div>
+<!-- Feature 5 -->
+<div class="p-10 bg-white border border-outline-variant/10 hover:border-secondary/30 transition-colors">
+<span class="material-symbols-outlined text-secondary text-4xl mb-6" data-icon="support_agent">support_agent</span>
+<h4 class="font-headline-md text-body-lg font-bold mb-4">24/7客服</h4>
+<p class="text-on-surface-variant font-body-md leading-relaxed">双语专业客服团队，全天候为您解答商品咨询、物流追踪及售后反馈等问题。</p>
+</div>
+<!-- Feature 6 -->
+<div class="p-10 bg-white border border-outline-variant/10 hover:border-secondary/30 transition-colors">
+<span class="material-symbols-outlined text-secondary text-4xl mb-6" data-icon="assignment_return">assignment_return</span>
+<h4 class="font-headline-md text-body-lg font-bold mb-4">售后无忧</h4>
+<p class="text-on-surface-variant font-body-md leading-relaxed">完善的退换货政策，本地化退货点，解决跨境购物最后一公里的后顾之忧。</p>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-section-gap">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="bg-primary-container p-16 md:p-24 relative overflow-hidden rounded-lg">
+<div class="relative z-10 max-w-xl">
+<h2 class="font-display-lg text-display-lg text-white mb-6">开启您的全球精品之旅</h2>
+<p class="text-on-primary-container font-body-lg mb-10">现在注册即享首单免邮及专属新人礼券，尊享私密会员服务。</p>
+<button class="bg-white text-primary px-10 py-5 font-label-sm text-label-sm hover:bg-surface-container transition-colors">立即注册会员</button>
+</div>
+<div class="absolute right-0 top-0 h-full w-1/2 opacity-20 pointer-events-none hidden lg:block">
+<img class="w-full h-full object-cover" data-alt="A sophisticated abstract pattern featuring flowing lines and crystalline geometric shapes. The design is rendered in shades of deep indigo and soft white, creating a sense of digital fluidity and premium security. The pattern is subtle and editorial, acting as a background texture that emphasizes a high-tech, luxury shopping environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6mDJsJnY6mOjxEh1Wk5rrrOyvS8NR9te1Xefmqi84VWKdmXmf1mSZYY704yvaiDE7HXI09I9aQNaj9PGzk2JYZh16DZDMLgQ2wYIeyyqbPqgj_KHlEcOmG0qYAM_CW1qgMyOAooI6zzKHOva9zNUxVJ6nwnoIj2vi8km2Rq3CssgRTAJQPds_QtguiMF5-7FeHJiOAPRGELA0dhCknaHeWGQfFy5vJV4jDgCR3JJ1YEF9osIy0JnvbEg5nfSfhTVd8F_RoQctPztu"/>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface dark:bg-surface-container-lowest w-full py-12 border-t border-outline-variant/20">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-base">
+<div class="flex flex-col items-center md:items-start gap-4">
+<span class="font-headline-md text-headline-md font-bold text-primary">Web3Mall</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant">© 2024 Web3Mall. 全球直采，品质保证。</p>
+</div>
+<div class="flex gap-8">
+<a class="text-on-surface-variant hover:text-secondary transition-colors font-label-sm text-label-sm" href="#">关于我们</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors font-label-sm text-label-sm" href="#">帮助中心</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors font-label-sm text-label-sm" href="#">服务协议</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors font-label-sm text-label-sm" href="#">隐私政策</a>
+</div>
+<div class="flex gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant/30 hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" style="font-size: 20px;">language</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant/30 hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" style="font-size: 20px;">mail</span>
+</button>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for header scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 20) {
+                header.classList.add('editorial-shadow');
+            } else {
+                header.classList.remove('editorial-shadow');
+            }
+        });
+
+        // Hover effect for product cards
+        document.querySelectorAll('.group').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('editorial-shadow');
+            });
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('editorial-shadow');
+            });
+        });
+    </script>
+</body></html>
