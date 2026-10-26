@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { clsx } from 'clsx'
@@ -188,7 +188,7 @@ function ResultPanel({ result, fx }: { result: TradeCostEstimateResult; fx: numb
   )
 }
 
-export default function ForeignTradeCostPage() {
+function ForeignTradeCostPage() {
   const searchParams = useSearchParams()
   const shipmentId = searchParams.get('shipmentId')
 
@@ -360,5 +360,13 @@ export default function ForeignTradeCostPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function ForeignTradeCostRoute() {
+  return (
+    <Suspense fallback={<LoadingSpinner className="py-12" />}>
+      <ForeignTradeCostPage />
+    </Suspense>
   )
 }
