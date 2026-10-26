@@ -44,7 +44,7 @@ export function Navbar() {
     >
       <div
         className={clsx(
-          'mx-auto flex h-20 max-w-container-max items-center px-margin-mobile md:px-margin-desktop',
+          'mx-auto flex h-14 max-w-container-max items-center px-margin-mobile md:h-20 md:px-margin-desktop',
           isAuth ? 'justify-center' : 'justify-between',
         )}
       >
@@ -55,7 +55,7 @@ export function Navbar() {
         ) : (
           <>
             <div className="flex items-center gap-4 md:gap-12">
-              <Link href="/" className="text-xl font-bold tracking-tight text-on-surface">
+              <Link href="/" className="max-w-[9.5rem] truncate text-base font-bold tracking-tight text-on-surface sm:max-w-none sm:text-xl">
                 {BRAND_NAME}
               </Link>
               <nav className="hidden items-center gap-6 md:flex md:gap-8">
@@ -157,6 +157,25 @@ export function Navbar() {
 
       {mobileOpen && !isAuth && (
         <div className="border-t border-outline-variant/10 bg-white px-margin-mobile py-4 md:hidden">
+          <form
+            className="mb-3"
+            onSubmit={(e) => {
+              e.preventDefault()
+              if (!searchQ.trim()) return
+              router.push(`/search?q=${encodeURIComponent(searchQ.trim())}`)
+            }}
+          >
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-on-surface-variant" />
+              <input
+                type="search"
+                placeholder="搜索全球好物..."
+                value={searchQ}
+                onChange={(e) => setSearchQ(e.target.value)}
+                className="w-full rounded-lg border border-outline-variant/20 bg-surface-container-low py-2.5 pl-10 pr-4 text-sm outline-none focus:border-secondary"
+              />
+            </div>
+          </form>
           <nav className="flex flex-col gap-1">
             {NAV.map((item) => (
               <Link

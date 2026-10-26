@@ -51,7 +51,7 @@ function SearchResults() {
         <p className="py-16 text-center text-on-surface-variant">未找到相关商品</p>
       ) : (
         <>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
             {products.map((p) => (
               <ProductCard key={p.id} product={p} region={region} href={`/products/${p.id}`} />
             ))}

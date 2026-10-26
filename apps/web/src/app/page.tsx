@@ -47,23 +47,23 @@ export default function HomePage() {
   return (
     <div className="pb-8">
       {/* Hero — from Stitch home.html */}
-      <section className="relative flex min-h-[min(82vh,720px)] items-center overflow-hidden bg-white">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 z-10 bg-gradient-to-r from-white via-white/50 to-transparent" />
+      <section className="overflow-hidden bg-white md:relative md:flex md:min-h-[min(82vh,720px)] md:items-center">
+        <div className="relative h-56 sm:h-72 md:absolute md:inset-0 md:h-auto">
+          <div className="absolute inset-0 z-10 bg-gradient-to-t from-white via-white/20 to-transparent md:bg-gradient-to-r md:from-white md:via-white/50 md:to-transparent" />
           <img src={HERO_IMAGE} alt="" className="h-full w-full object-cover" />
         </div>
-        <div className="relative z-20 mx-auto w-full max-w-container-max px-margin-mobile md:px-margin-desktop">
+        <div className="relative z-20 mx-auto w-full max-w-container-max px-margin-mobile pb-8 md:px-margin-desktop md:pb-0">
           <div className="max-w-2xl">
-            <h1 className="text-4xl font-bold tracking-tight text-on-surface md:text-5xl lg:text-[48px] lg:leading-[1.1]">
+            <h1 className="text-3xl font-bold tracking-tight text-on-surface sm:text-4xl md:text-5xl lg:text-[48px] lg:leading-[1.1]">
               {BRAND_NAME}
             </h1>
-            <p className="mt-6 text-lg leading-relaxed text-on-surface-variant">
+            <p className="mt-4 text-base leading-relaxed text-on-surface-variant md:mt-6 md:text-lg">
               链接全球精品，重塑跨境消费体验。便捷的法币结算、极速清关与正品保障，让每一笔交易都从容可信。
             </p>
-            <div className="mt-10 flex flex-wrap gap-4">
+            <div className="mt-6 flex flex-wrap gap-3 md:mt-10 md:gap-4">
               <Link
                 href="/products"
-                className="inline-flex items-center gap-2 bg-on-surface px-8 py-4 text-sm font-medium text-white transition-opacity hover:opacity-90 editorial-shadow"
+                className="inline-flex w-full items-center justify-center gap-2 bg-on-surface px-8 py-3.5 text-sm font-medium text-white transition-opacity hover:opacity-90 editorial-shadow sm:w-auto sm:py-4"
               >
                 浏览商品
                 <ArrowRight className="h-4 w-4" />
@@ -71,7 +71,7 @@ export default function HomePage() {
               {!user && (
                 <Link
                   href="/register"
-                  className="inline-flex items-center border border-on-surface px-8 py-4 text-sm font-medium text-on-surface transition-colors hover:bg-surface-container-low"
+                  className="inline-flex w-full items-center justify-center border border-on-surface px-8 py-3.5 text-sm font-medium text-on-surface transition-colors hover:bg-surface-container-low sm:w-auto sm:py-4"
                 >
                   注册账号
                 </Link>
@@ -82,8 +82,8 @@ export default function HomePage() {
       </section>
 
       {/* Featured */}
-      <section className="mx-auto max-w-container-max px-margin-mobile py-section-gap md:px-margin-desktop">
-        <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
+      <section className="mx-auto max-w-container-max px-margin-mobile py-10 md:px-margin-desktop md:py-section-gap">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4 md:mb-12">
           <div>
             <h2 className="text-2xl font-semibold text-on-surface">热门推荐</h2>
             <p className="mt-2 text-on-surface-variant">本月全球最受关注的精品好物</p>
@@ -98,7 +98,7 @@ export default function HomePage() {
             <div className="h-10 w-10 animate-spin rounded-full border-4 border-surface-container-high border-t-secondary" />
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-gutter sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 sm:gap-gutter lg:grid-cols-4">
             {featuredProducts.map((product) => (
               <ProductCard
                 key={product.id}
@@ -112,9 +112,9 @@ export default function HomePage() {
       </section>
 
       {/* Features */}
-      <section className="bg-surface-container-low py-section-gap">
+      <section className="bg-surface-container-low py-10 md:py-section-gap">
         <div className="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
-          <div className="mb-16 text-center">
+          <div className="mb-8 text-center md:mb-16">
             <h2 className="text-2xl font-semibold text-on-surface">为什么选择我们</h2>
             <p className="mt-4 text-on-surface-variant">为您提供全方位的跨境购物保障体系</p>
           </div>
@@ -122,7 +122,7 @@ export default function HomePage() {
             {FEATURES.map(({ title, desc, Icon }) => (
               <div
                 key={title}
-                className="border border-outline-variant/10 bg-white p-10 transition-colors hover:border-secondary/30"
+                className="border border-outline-variant/10 bg-white p-5 transition-colors hover:border-secondary/30 md:p-10"
               >
                 <Icon className="mb-6 h-10 w-10 text-secondary" strokeWidth={1.5} />
                 <h4 className="mb-4 text-lg font-bold">{title}</h4>
@@ -134,8 +134,8 @@ export default function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="mx-auto max-w-container-max px-margin-mobile py-section-gap md:px-margin-desktop">
-        <div className="relative overflow-hidden rounded-lg bg-primary-container p-12 md:p-24">
+      <section className="mx-auto max-w-container-max px-margin-mobile py-10 md:px-margin-desktop md:py-section-gap">
+        <div className="relative overflow-hidden rounded-lg bg-primary-container p-6 md:p-24">
           <div className="relative z-10 max-w-xl">
             <h2 className="text-3xl font-bold text-white md:text-4xl">开启您的全球精品之旅</h2>
             <p className="mt-6 text-lg text-on-primary-container">

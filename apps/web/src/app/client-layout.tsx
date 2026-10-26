@@ -16,7 +16,7 @@ export function ClientLayout({ children }: { children: ReactNode }) {
     <AuthProvider>
       <Navbar />
       {!isAdmin && <RegionHintBanner />}
-      <main className={isAdmin ? 'min-h-[calc(100vh-5rem)] pt-20' : 'min-h-screen pt-20'}>
+      <main className={isAdmin ? 'min-h-[calc(100vh-3.5rem)] pt-14 md:min-h-[calc(100vh-5rem)] md:pt-20' : 'min-h-screen pt-14 md:pt-20'}>
         {children}
       </main>
       {!isAdmin && <Footer />}

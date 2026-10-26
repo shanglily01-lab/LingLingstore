@@ -80,7 +80,7 @@ export default function ProductDetailPage() {
         <ProductGallery images={product.images} alt={displayName || ''} />
 
         <div>
-          <h1 className="text-3xl font-bold text-on-surface">{displayName}</h1>
+          <h1 className="text-2xl font-bold text-on-surface md:text-3xl">{displayName}</h1>
           <p className="mt-2 text-sm text-on-surface-variant">SPU: {product.spuNo}</p>
 
           {listing && (
@@ -94,16 +94,16 @@ export default function ProductDetailPage() {
             {region === 'CN' ? product.descriptionCn : product.descriptionEn}
           </p>
 
-          <div className="mt-10 flex flex-wrap gap-4">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4 md:mt-10">
             <button
               type="button"
               onClick={handleAddToCart}
               disabled={adding || !listing}
-              className={btnPrimary + ' px-8 py-3'}
+              className={btnPrimary + ' w-full px-8 py-3 sm:w-auto'}
             >
               {adding ? '添加中...' : '加入购物车'}
             </button>
-            <Link href="/cart" className={btnSecondary + ' px-8 py-3'}>
+            <Link href="/cart" className={btnSecondary + ' w-full px-8 py-3 sm:w-auto'}>
               查看购物车
             </Link>
           </div>

@@ -37,14 +37,14 @@ export function ProductCard({ product, region, href }: ProductCardProps) {
           </div>
         )}
       </div>
-      <div className="p-6">
+      <div className="p-3 md:p-6">
         <span className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60">
           {product.spuNo}
         </span>
         <h3 className="mt-2 line-clamp-2 text-base font-semibold text-on-surface">{name}</h3>
         <div className="mt-4 flex items-center justify-between">
           {price ? (
-            <span className="text-xl font-bold text-error">{price}</span>
+            <span className="text-base font-bold text-error md:text-xl">{price}</span>
           ) : (
             <span className="text-sm text-on-surface-variant">—</span>
           )}
