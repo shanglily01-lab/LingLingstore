@@ -124,6 +124,7 @@ export interface ProductData {
   descriptionEn?: string
   categoryId?: string
   images?: any[]
+  videos?: any[]
   status: string
   createdAt: string
   listings?: ProductListingData[]
@@ -222,6 +223,7 @@ export interface AdminProductInput {
   descriptionEn?: string
   categoryId?: string
   images?: any[]
+  videos?: any[]
   listings: {
     region: string
     sku: string

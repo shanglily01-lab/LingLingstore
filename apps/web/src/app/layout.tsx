@@ -13,7 +13,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: `${BRAND_NAME} - 跨境精选商城`,
-  description: `${BRAND_NAME}，链接全球精品的跨境商城`,
+  description: `${BRAND_NAME} 跨境精选商城。全球直采，国内以人民币计价，海外以美元计价，正品入仓后配送。`,
 }
 
 export default function RootLayout({ children }: { children: ReactNode }): JSX.Element {

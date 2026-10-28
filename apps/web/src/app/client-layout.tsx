@@ -3,6 +3,7 @@
 import type { ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
 import { AuthProvider } from '@/lib/auth-context'
+import { SalesMarketProvider } from '@/lib/sales-market'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { RegionHintBanner } from '@/components/region-hint-banner'
@@ -15,19 +16,21 @@ export function ClientLayout({ children }: { children: ReactNode }) {
 
   return (
     <AuthProvider>
-      <Navbar />
-      {!isAdmin && <RegionHintBanner />}
-      <main
-        className={
-          compactHeader
-            ? 'min-h-screen pt-14'
-            : 'min-h-screen pt-[104px] md:pt-[100px]'
-        }
-      >
-        {children}
-      </main>
-      {!isAdmin && <Footer />}
-      <Toaster position="top-center" />
+      <SalesMarketProvider>
+        <Navbar />
+        {!isAdmin && <RegionHintBanner />}
+        <main
+          className={
+            compactHeader
+              ? 'min-h-screen pt-14'
+              : 'min-h-screen pt-[144px] md:pt-[100px]'
+          }
+        >
+          {children}
+        </main>
+        {!isAdmin && <Footer />}
+        <Toaster position="top-center" />
+      </SalesMarketProvider>
     </AuthProvider>
   )
 }

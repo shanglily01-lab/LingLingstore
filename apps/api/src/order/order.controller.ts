@@ -28,7 +28,7 @@ export class OrderController {
 
   ): Promise<OrderData> {
 
-    return this.order.createOrder(BigInt(user.userId), user.region, body)
+    return this.order.createOrder(BigInt(user.userId), body)
 
   }
 

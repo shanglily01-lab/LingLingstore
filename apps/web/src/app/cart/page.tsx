@@ -66,6 +66,13 @@ export default function CartPage() {
   return (
     <PageShell className="max-w-3xl">
       <h1 className="text-2xl font-bold text-on-surface">购物车</h1>
+      {cart && cart.items.length > 0 && (
+        <p className="mt-2 text-sm text-on-surface-variant">
+          {cart.region === 'CN'
+            ? '大陆销售，人民币结算，支付方式为微信或支付宝。'
+            : '海外销售，美元结算，通过海外账户收款。'}
+        </p>
+      )}
 
       {!cart || cart.items.length === 0 ? (
         <EmptyState
@@ -81,7 +88,7 @@ export default function CartPage() {
                 {item.image ? (
                   <img
                     src={item.image}
-                    alt={user.region === 'CN' ? item.nameCn || '' : item.nameEn || ''}
+                    alt={cart.region === 'CN' ? item.nameCn || '' : item.nameEn || ''}
                     className="h-full w-full object-cover"
                   />
                 ) : (
@@ -90,7 +97,7 @@ export default function CartPage() {
               </div>
               <div className="min-w-0 flex-1">
                 <p className="truncate font-medium text-on-surface">
-                  {user.region === 'CN' ? item.nameCn : item.nameEn}
+                  {cart.region === 'CN' ? item.nameCn : item.nameEn}
                 </p>
                 <p className="text-xs text-on-surface-variant">SKU: {item.sku}</p>
                 <p className={`mt-1 ${price}`}>

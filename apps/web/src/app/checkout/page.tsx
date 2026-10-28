@@ -13,12 +13,11 @@ import { btnPrimary, btnGhost, card, cardFlat, price } from '@/components/ui/sti
 import type { CartResponse, ShippingAddressData } from '@web3-mall/shared'
 
 const CN_CHANNELS = [
-  { id: 'alipay', name: '支付宝', icon: '🔵' },
-  { id: 'wechat', name: '微信支付', icon: '🟢' },
+  { id: 'wechat', name: '微信支付', hint: '人民币' },
+  { id: 'alipay', name: '支付宝', hint: '人民币' },
 ]
 const OVERSEAS_CHANNELS = [
-  { id: 'stripe', name: 'Stripe', icon: '💳' },
-  { id: 'paypal', name: 'PayPal', icon: '🔷' },
+  { id: 'overseas', name: '海外账户', hint: '美元' },
 ]
 
 export default function CheckoutPage() {
@@ -42,7 +41,7 @@ export default function CheckoutPage() {
         setAddresses(addrList)
         const def = addrList.find((a) => a.isDefault) ?? addrList[0]
         if (def) setShippingAddressId(def.id)
-        const channels = user.region === 'CN' ? CN_CHANNELS : OVERSEAS_CHANNELS
+        const channels = cartData.region === 'CN' ? CN_CHANNELS : OVERSEAS_CHANNELS
         setPaymentChannel(channels[0]?.id || '')
       })
       .catch(() => {})
@@ -84,19 +83,19 @@ export default function CheckoutPage() {
 
   if (loading) return <LoadingSpinner />
 
-  const channels = user?.region === 'CN' ? CN_CHANNELS : OVERSEAS_CHANNELS
-  const region = user?.region || 'CN'
+  const channels = cart?.region === 'CN' ? CN_CHANNELS : OVERSEAS_CHANNELS
+  const isCn = cart?.region !== 'OVERSEAS'
 
   return (
     <PageShell className="max-w-3xl">
       <h1 className="text-2xl font-bold text-on-surface">
-        {region === 'CN' ? '确认订单' : 'Confirm Order'}
+        {isCn ? '确认订单 · 大陆销售' : '确认订单 · 海外销售'}
       </h1>
 
       <div className="mt-8">
         <div className="flex items-center justify-between">
           <h2 className="font-medium text-on-surface">
-            {region === 'CN' ? '收货地址' : 'Shipping Address'}
+            {isCn ? '收货地址' : 'Shipping Address'}
           </h2>
           <Link href="/account/addresses" className={btnGhost + ' text-xs'}>
             管理地址
@@ -140,7 +139,7 @@ export default function CheckoutPage() {
       {cart && cart.items.length > 0 && (
         <div className="mt-8 space-y-3">
           <h2 className="font-medium text-on-surface">
-            {region === 'CN' ? '商品清单' : 'Order Items'}
+            {isCn ? '商品清单' : 'Order Items'}
           </h2>
           {cart.items.map((item) => (
             <div key={item.listingId} className={`${cardFlat} flex items-center gap-4 p-4`}>
@@ -149,7 +148,7 @@ export default function CheckoutPage() {
               </div>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium text-on-surface">
-                  {region === 'CN' ? item.nameCn : item.nameEn}
+                  {isCn ? item.nameCn : item.nameEn}
                 </p>
                 <p className="text-xs text-on-surface-variant">
                   {item.sku} × {item.quantity}
@@ -166,7 +165,7 @@ export default function CheckoutPage() {
 
       <div className="mt-8">
         <h2 className="font-medium text-on-surface">
-          {region === 'CN' ? '支付方式' : 'Payment Method'}
+          {isCn ? '支付方式' : 'Payment Method'}
         </h2>
         <div className="mt-3 grid gap-3 sm:grid-cols-2">
           {channels.map((ch) => (
@@ -181,8 +180,10 @@ export default function CheckoutPage() {
                   : 'border-outline-variant/20 bg-white hover:border-outline-variant/40',
               )}
             >
-              <span className="text-2xl">{ch.icon}</span>
-              <span className="font-medium text-on-surface">{ch.name}</span>
+              <span>
+                <span className="block font-medium text-on-surface">{ch.name}</span>
+                <span className="block text-xs text-on-surface-variant">{ch.hint}</span>
+              </span>
             </button>
           ))}
         </div>
@@ -191,10 +192,10 @@ export default function CheckoutPage() {
       <div className={`${card} mt-8 p-6`}>
         {cart && (
           <div className="flex justify-between text-lg font-bold">
-            <span>{region === 'CN' ? '合计' : 'Total'}</span>
+            <span>{isCn ? '合计' : 'Total'}</span>
             <span className={price}>
               {cart.currency === 'CNY' ? '¥' : '$'}
-              {((cart.totalAmount + (region === 'CN' ? 800 : 2500)) / 100).toFixed(2)}
+              {((cart.totalAmount + (isCn ? 800 : 2500)) / 100).toFixed(2)}
             </span>
           </div>
         )}

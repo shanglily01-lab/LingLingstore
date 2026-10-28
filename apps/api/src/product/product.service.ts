@@ -49,6 +49,7 @@ export class ProductService {
         descriptionEn: p.descriptionEn ?? undefined,
         categoryId: p.category ? String(p.category.id) : undefined,
         images: p.images as any[] | undefined,
+        videos: p.videos as any[] | undefined,
         status: p.status,
         createdAt: p.createdAt.toISOString(),
         listings: p.listings.map((l) => ({
@@ -89,6 +90,7 @@ export class ProductService {
       descriptionEn: product.descriptionEn ?? undefined,
       categoryId: product.category ? String(product.category.id) : undefined,
       images: product.images as any[] | undefined,
+      videos: product.videos as any[] | undefined,
       status: product.status,
       createdAt: product.createdAt.toISOString(),
       listings: product.listings.map((l) => ({

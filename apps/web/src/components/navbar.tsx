@@ -7,6 +7,7 @@ import { Menu, Search, ShoppingCart, X } from 'lucide-react'
 import { clsx } from 'clsx'
 import { useAuth } from '@/lib/auth-context'
 import { BRAND_NAME } from '@/lib/brand'
+import { useSalesMarket, type SalesMarket } from '@/lib/sales-market'
 
 const NAV = [
   { href: '/products', label: '全部商品' },
@@ -16,6 +17,7 @@ const NAV = [
 
 export function Navbar() {
   const { user, loading, logout } = useAuth()
+  const { market, setMarket } = useSalesMarket()
   const pathname = usePathname()
   const router = useRouter()
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -120,8 +122,16 @@ export function Navbar() {
       )}
 
       {!isAuth && (
+        <div className="flex gap-2 px-3 pb-2 md:hidden">
+          <MarketSwitch market={market} onChange={setMarket} />
+        </div>
+      )}
+
+      {!isAuth && (
         <nav className="hidden h-10 items-center gap-1 bg-[#232f3e] px-4 text-sm md:flex">
           <div className="mx-auto flex h-full w-full max-w-container-max items-center gap-1">
+            <MarketSwitch market={market} onChange={setMarket} />
+            <span className="mx-2 h-4 w-px bg-white/20" />
             {NAV.map((item) => (
               <Link
                 key={item.href}
@@ -178,5 +188,35 @@ export function Navbar() {
         </div>
       )}
     </header>
+  )
+}
+
+function MarketSwitch({
+  market,
+  onChange,
+}: {
+  market: SalesMarket
+  onChange: (market: SalesMarket) => void
+}) {
+  const options: { id: SalesMarket; label: string }[] = [
+    { id: 'CN', label: '大陆销售' },
+    { id: 'OVERSEAS', label: '海外销售' },
+  ]
+  return (
+    <div className="flex gap-1">
+      {options.map((item) => (
+        <button
+          key={item.id}
+          type="button"
+          onClick={() => onChange(item.id)}
+          className={clsx(
+            'rounded-sm px-2 py-1 text-xs md:text-sm',
+            market === item.id ? 'bg-[#febd69] font-bold text-on-surface' : 'text-white hover:bg-white/10',
+          )}
+        >
+          {item.label}
+        </button>
+      ))}
+    </div>
   )
 }

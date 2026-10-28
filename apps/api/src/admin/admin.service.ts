@@ -95,6 +95,7 @@ export class AdminService {
       categoryId: product.categoryId ? String(product.categoryId) : undefined,
       categoryName: product.category?.nameCn ?? product.category?.nameEn ?? undefined,
       images: product.images as any[] | undefined,
+      videos: product.videos as any[] | undefined,
       status: product.status,
       createdAt: product.createdAt.toISOString(),
       updatedAt: product.updatedAt.toISOString(),
@@ -118,12 +119,20 @@ export class AdminService {
     }
   }
 
+  private assertProductVideos(videos?: unknown[]) {
+    const count = Array.isArray(videos) ? videos.filter((item) => item && (item as { url?: string }).url).length : 0
+    if (count > 2) {
+      throw new BadRequestException('每个商品最多 2 个短视频')
+    }
+  }
+
   async createProduct(data: {
     nameCn: string; nameEn: string; descriptionCn?: string; descriptionEn?: string;
-    categoryId?: string; images?: any[];
+    categoryId?: string; images?: any[]; videos?: any[];
     listings: { region: string; sku: string; price: number; currency: string; stock: number }[]
   }) {
     this.assertProductImages(data.images)
+    this.assertProductVideos(data.videos)
     const timestamp = Date.now().toString(36).toUpperCase()
     const random = nanoid(6).toUpperCase()
     const spuNo = 'SPU' + timestamp + random
@@ -137,6 +146,7 @@ export class AdminService {
         descriptionEn: data.descriptionEn,
         categoryId: data.categoryId ? BigInt(data.categoryId) : null,
         images: data.images ?? [],
+        videos: data.videos ?? [],
         listings: { create: data.listings.map((l) => ({ region: l.region, sku: l.sku, price: l.price, currency: l.currency, stock: l.stock })) },
       },
       include: { listings: true },
@@ -144,8 +154,9 @@ export class AdminService {
     return { id: String(product.id), spuNo: product.spuNo, listings: product.listings.map((l) => ({ id: String(l.id), sku: l.sku, region: l.region })) }
   }
 
-  async updateProduct(id: bigint, data: { nameCn?: string; nameEn?: string; descriptionCn?: string; descriptionEn?: string; categoryId?: string; images?: any[]; status?: string }) {
+  async updateProduct(id: bigint, data: { nameCn?: string; nameEn?: string; descriptionCn?: string; descriptionEn?: string; categoryId?: string; images?: any[]; videos?: any[]; status?: string }) {
     if (data.images !== undefined) this.assertProductImages(data.images)
+    if (data.videos !== undefined) this.assertProductVideos(data.videos)
     const updateData: any = {}
     if (data.nameCn !== undefined) updateData.nameCn = data.nameCn
     if (data.nameEn !== undefined) updateData.nameEn = data.nameEn
@@ -153,6 +164,7 @@ export class AdminService {
     if (data.descriptionEn !== undefined) updateData.descriptionEn = data.descriptionEn
     if (data.categoryId !== undefined) updateData.categoryId = data.categoryId ? BigInt(data.categoryId) : null
     if (data.images !== undefined) updateData.images = data.images
+    if (data.videos !== undefined) updateData.videos = data.videos
     if (data.status !== undefined) updateData.status = data.status
     return this.prisma.product.update({ where: { id }, data: updateData })
   }

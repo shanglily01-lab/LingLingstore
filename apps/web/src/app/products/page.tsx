@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { api } from '@/lib/api'
-import { useAuth } from '@/lib/auth-context'
+import { useSalesMarket } from '@/lib/sales-market'
 import { ProductCard } from '@/components/product-card'
 import { PageShell } from '@/components/page-shell'
 import { PageHeader } from '@/components/page-header'
@@ -17,14 +17,14 @@ const CATEGORY_ICONS: Record<string, string> = {
 }
 
 export default function ProductsPage() {
-  const { user } = useAuth()
+  const { market } = useSalesMarket()
   const [products, setProducts] = useState<ProductData[]>([])
   const [categories, setCategories] = useState<ProductCategoryData[]>([])
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
-  const region = user?.region || 'CN'
+  const region = market
 
   useEffect(() => {
     api.getCategories().then(setCategories).catch(() => {})
@@ -49,11 +49,15 @@ export default function ProductsPage() {
   return (
     <PageShell>
       <PageHeader
-        title={region === 'CN' ? '全部商品' : 'All Products'}
-        subtitle={region === 'CN' ? '精选跨境好物，直采全球' : 'Curated cross-border picks'}
+        title={region === 'CN' ? '大陆销售' : '海外销售'}
+        subtitle={
+          region === 'CN'
+            ? '人民币标价，下单后使用微信或支付宝付款。'
+            : '美元标价，下单后通过海外账户收款。'
+        }
         crumbs={[
           { label: '首页', href: '/' },
-          { label: region === 'CN' ? '全部商品' : 'All Products' },
+          { label: region === 'CN' ? '大陆销售' : '海外销售' },
         ]}
       />
 

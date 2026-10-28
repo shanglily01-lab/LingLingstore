@@ -7,7 +7,7 @@ import type { AdminCategoryData } from '@web3-mall/shared'
 import toast from 'react-hot-toast'
 import { AdminFormSection } from '@/components/admin-form-section'
 import { AdminPageHeader } from '@/components/admin-page-header'
-import { ProductImageFields, buildProductImagesPayload } from '@/components/product-image-fields'
+import { ProductImageFields, ProductVideoFields, buildProductImagesPayload, buildProductVideosPayload } from '@/components/product-image-fields'
 import { PRODUCT_IMAGE_COUNT } from '@/lib/product-image'
 import { btnGhost, btnPrimary, card, input, label, select, textarea } from '@/components/ui/stitch'
 
@@ -23,6 +23,9 @@ export default function NewProductPage() {
     descriptionEn: '',
     categoryId: '',
     imageUrls: ['', '', '', '', '', ''],
+    videoUrls: ['', ''],
+    sellCn: true,
+    sellUs: false,
     cnSku: '',
     cnPrice: '',
     cnStock: '',
@@ -41,8 +44,16 @@ export default function NewProductPage() {
       toast.error('请填写商品名称')
       return
     }
-    if (!form.cnSku || !form.usSku) {
-      toast.error('请填写 SKU')
+    if (!form.sellCn && !form.sellUs) {
+      toast.error('请至少选择大陆销售或海外销售')
+      return
+    }
+    if (form.sellCn && !form.cnSku) {
+      toast.error('请填写大陆销售 SKU')
+      return
+    }
+    if (form.sellUs && !form.usSku) {
+      toast.error('请填写海外销售 SKU')
       return
     }
     const filledImages = form.imageUrls.map((u) => u.trim()).filter(Boolean)
@@ -64,21 +75,30 @@ export default function NewProductPage() {
         descriptionEn: form.descriptionEn || undefined,
         categoryId: form.categoryId || undefined,
         images: buildProductImagesPayload(form.imageUrls, form.nameCn, form.nameEn),
+        videos: buildProductVideosPayload(form.videoUrls),
         listings: [
-          {
-            region: 'CN',
-            sku: form.cnSku,
-            price: Math.round(parseFloat(form.cnPrice || '0') * 100),
-            currency: 'CNY',
-            stock: parseInt(form.cnStock || '0', 10),
-          },
-          {
-            region: 'OVERSEAS',
-            sku: form.usSku,
-            price: Math.round(parseFloat(form.usPrice || '0') * 100),
-            currency: 'USD',
-            stock: parseInt(form.usStock || '0', 10),
-          },
+          ...(form.sellCn
+            ? [
+                {
+                  region: 'CN',
+                  sku: form.cnSku,
+                  price: Math.round(parseFloat(form.cnPrice || '0') * 100),
+                  currency: 'CNY',
+                  stock: parseInt(form.cnStock || '0', 10),
+                },
+              ]
+            : []),
+          ...(form.sellUs
+            ? [
+                {
+                  region: 'OVERSEAS',
+                  sku: form.usSku,
+                  price: Math.round(parseFloat(form.usPrice || '0') * 100),
+                  currency: 'USD',
+                  stock: parseInt(form.usStock || '0', 10),
+                },
+              ]
+            : []),
         ],
       }
       await api.admin.products.create(payload)
@@ -154,7 +174,22 @@ export default function NewProductPage() {
           nameEn={form.nameEn}
         />
 
-        <AdminFormSection title="国内站 (CN)">
+        <ProductVideoFields
+          urls={form.videoUrls}
+          onChange={(videoUrls) => setForm((f) => ({ ...f, videoUrls }))}
+        />
+
+        <AdminFormSection title="大陆销售">
+          <p className="mb-3 text-sm text-on-surface-variant">人民币结算，顾客使用微信或支付宝付款。</p>
+          <label className="mb-3 flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={form.sellCn}
+              onChange={(e) => setForm((f) => ({ ...f, sellCn: e.target.checked }))}
+            />
+            在大陆销售
+          </label>
+          {form.sellCn && (
           <div className="grid gap-4 sm:grid-cols-3">
             <div>
               <label className={label}>SKU *</label>
@@ -175,9 +210,20 @@ export default function NewProductPage() {
               <input type="number" value={form.cnStock} onChange={update('cnStock')} className={input} />
             </div>
           </div>
+          )}
         </AdminFormSection>
 
-        <AdminFormSection title="海外站 (OVERSEAS)">
+        <AdminFormSection title="海外销售">
+          <p className="mb-3 text-sm text-on-surface-variant">美元结算，通过海外账户收款。</p>
+          <label className="mb-3 flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={form.sellUs}
+              onChange={(e) => setForm((f) => ({ ...f, sellUs: e.target.checked }))}
+            />
+            在海外销售
+          </label>
+          {form.sellUs && (
           <div className="grid gap-4 sm:grid-cols-3">
             <div>
               <label className={label}>SKU *</label>
@@ -198,6 +244,7 @@ export default function NewProductPage() {
               <input type="number" value={form.usStock} onChange={update('usStock')} className={input} />
             </div>
           </div>
+          )}
         </AdminFormSection>
 
         <div className="flex items-center justify-end gap-3 border-t border-outline-variant/20 pt-4">

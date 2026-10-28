@@ -30,6 +30,23 @@ const PRODUCT_IMAGE_TYPES: Record<string, string> = {
   'image/gif': '.gif',
 }
 const PRODUCT_IMAGE_MAX_BYTES = 5 * 1024 * 1024
+const PRODUCT_VIDEO_TYPES: Record<string, string> = {
+  'video/mp4': '.mp4',
+  'video/webm': '.webm',
+  'video/quicktime': '.mov',
+}
+const PRODUCT_VIDEO_MAX_BYTES = 30 * 1024 * 1024
+
+function publicUploadUrl(req: Request, filename: string) {
+  const forwardedProto = req.headers['x-forwarded-proto']
+  const hostHeader = req.headers['x-forwarded-host']
+  const host = (Array.isArray(hostHeader) ? hostHeader[0] : hostHeader) || req.get('host') || 'localhost'
+  const rawProto = Array.isArray(forwardedProto) ? forwardedProto[0] : forwardedProto
+  const proto =
+    rawProto?.split(',')[0] ||
+    (host.startsWith('localhost') || host.startsWith('127.0.0.1') ? req.protocol : 'https')
+  return `${proto}://${host}/uploads/products/${filename}`
+}
 
 type UploadedImage = {
   buffer: Buffer
@@ -81,16 +98,32 @@ export class AdminController {
     const dir = join(process.cwd(), 'uploads', 'products')
     await mkdir(dir, { recursive: true })
     await writeFile(join(dir, filename), file.buffer)
+    return { url: publicUploadUrl(req, filename) }
+  }
 
-    const forwardedProto = req.headers['x-forwarded-proto']
-    const hostHeader = req.headers['x-forwarded-host']
-    const host = (Array.isArray(hostHeader) ? hostHeader[0] : hostHeader) || req.get('host') || 'localhost'
-    const rawProto = Array.isArray(forwardedProto) ? forwardedProto[0] : forwardedProto
-    const proto =
-      rawProto?.split(',')[0] ||
-      (host.startsWith('localhost') || host.startsWith('127.0.0.1') ? req.protocol : 'https')
+  @Post('uploads/product-video')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: { fileSize: PRODUCT_VIDEO_MAX_BYTES },
+    }),
+  )
+  async uploadProductVideo(@UploadedFile() file: UploadedImage | undefined, @Req() req: Request) {
+    if (!file?.buffer?.length) {
+      throw new BadRequestException('请选择视频')
+    }
+    const ext = PRODUCT_VIDEO_TYPES[file.mimetype]
+    if (!ext) {
+      throw new BadRequestException('只支持 MP4、WEBM、MOV')
+    }
+    if (file.size > PRODUCT_VIDEO_MAX_BYTES) {
+      throw new BadRequestException('单个短视频不能超过 30MB')
+    }
 
-    return { url: `${proto}://${host}/uploads/products/${filename}` }
+    const filename = `${Date.now().toString(36)}-${randomBytes(6).toString('hex')}${ext}`
+    const dir = join(process.cwd(), 'uploads', 'products')
+    await mkdir(dir, { recursive: true })
+    await writeFile(join(dir, filename), file.buffer)
+    return { url: publicUploadUrl(req, filename) }
   }
 
   @Post('products')
@@ -102,6 +135,7 @@ export class AdminController {
       descriptionEn?: string
       categoryId?: string
       images?: any[]
+      videos?: any[]
       listings: { region: string; sku: string; price: number; currency: string; stock: number }[]
     },
   ) {
@@ -116,7 +150,7 @@ export class AdminController {
   @Put('products/:id')
   async updateProduct(
     @Param('id') id: string,
-    @Body() body: { nameCn?: string; nameEn?: string; descriptionCn?: string; descriptionEn?: string; categoryId?: string; images?: any[]; status?: string },
+    @Body() body: { nameCn?: string; nameEn?: string; descriptionCn?: string; descriptionEn?: string; categoryId?: string; images?: any[]; videos?: any[]; status?: string },
   ) {
     return this.admin.updateProduct(BigInt(id), body)
   }

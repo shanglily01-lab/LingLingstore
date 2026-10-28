@@ -12,7 +12,6 @@ export class OrderService {
 
   async createOrder(
     userId: bigint,
-    region: string,
     params: {
       shippingAddressId: string
       paymentChannel: string
@@ -20,16 +19,6 @@ export class OrderService {
       note?: string
     },
   ) {
-    // 验证支付通道
-    const cnChannels = ['alipay', 'wechat', 'unionpay']
-    const overseasChannels = ['stripe', 'paypal']
-    const allowedChannels = region === 'CN' ? cnChannels : overseasChannels
-
-    if (!allowedChannels.includes(params.paymentChannel)) {
-      throw new ForbiddenException('该区域不支持所选的支付方式')
-    }
-
-    // 验证收货地址
     const address = await this.prisma.shippingAddress.findUnique({
       where: { id: BigInt(params.shippingAddressId) },
     })
@@ -37,15 +26,24 @@ export class OrderService {
       throw new BadRequestException('收货地址无效')
     }
 
-    // 检查商品有效性 & 计算金额
     const listingIds = params.items.map((i) => BigInt(i.listingId))
     const listings = await this.prisma.productListing.findMany({
-      where: { id: { in: listingIds }, region, isActive: true },
+      where: { id: { in: listingIds }, isActive: true },
       include: { product: { select: { id: true, spuNo: true, nameCn: true, nameEn: true, images: true } } },
     })
 
     if (listings.length !== params.items.length) {
       throw new BadRequestException('部分商品不存在或未上架')
+    }
+
+    const region = listings[0]?.region
+    if (!region || listings.some((listing) => listing.region !== region)) {
+      throw new BadRequestException('大陆商品和海外商品要分开下单')
+    }
+
+    const allowedChannels = region === 'CN' ? ['alipay', 'wechat'] : ['overseas']
+    if (!allowedChannels.includes(params.paymentChannel)) {
+      throw new ForbiddenException(region === 'CN' ? '大陆销售只支持微信和支付宝' : '海外销售通过海外账户收款')
     }
 
     const listingMap = new Map(listings.map((l) => [String(l.id), l]))

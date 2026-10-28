@@ -22,11 +22,9 @@ export class PaymentService {
     const cn = [
       new ChannelScaffoldGateway('alipay', 'CN', ['CNY'], 'ALIPAY_APP_ID'),
       new ChannelScaffoldGateway('wechat', 'CN', ['CNY'], 'WECHAT_MCH_ID'),
-      new ChannelScaffoldGateway('unionpay', 'CN', ['CNY'], 'UNIONPAY_MER_ID'),
     ]
     const overseas = [
-      new ChannelScaffoldGateway('stripe', 'OVERSEAS', ['USD'], 'STRIPE_SECRET_KEY'),
-      new ChannelScaffoldGateway('paypal', 'OVERSEAS', ['USD'], 'PAYPAL_CLIENT_ID'),
+      new ChannelScaffoldGateway('overseas', 'OVERSEAS', ['USD']),
     ]
     for (const g of [...cn, ...overseas]) this.router.register(g)
   }
@@ -45,8 +43,8 @@ export class PaymentService {
     if (!useMock) {
       this.router.validateChannel(order.region, channel)
     } else {
-      const cn = ['alipay', 'wechat', 'unionpay']
-      const overseas = ['stripe', 'paypal']
+      const cn = ['alipay', 'wechat']
+      const overseas = ['overseas']
       const allowed = order.region === 'CN' ? cn : overseas
       if (!allowed.includes(channel)) {
         throw new ForbiddenException('该区域不支持所选的支付方式')

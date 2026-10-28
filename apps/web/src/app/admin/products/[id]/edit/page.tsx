@@ -9,8 +9,9 @@ import toast from 'react-hot-toast'
 import { AdminFormSection } from '@/components/admin-form-section'
 import { AdminPageHeader } from '@/components/admin-page-header'
 import { LoadingSpinner } from '@/components/loading-spinner'
-import { ProductImageFields, buildProductImagesPayload } from '@/components/product-image-fields'
+import { ProductImageFields, ProductVideoFields, buildProductImagesPayload, buildProductVideosPayload } from '@/components/product-image-fields'
 import { getProductImageUrls, imageUrlsToFormSlots, PRODUCT_IMAGE_COUNT } from '@/lib/product-image'
+import { getProductVideoUrls, videoUrlsToFormSlots } from '@/lib/product-video'
 import { btnGhost, btnPrimary, card, input, label, link, select, textarea } from '@/components/ui/stitch'
 
 export default function EditProductPage() {
@@ -29,6 +30,7 @@ export default function EditProductPage() {
     categoryId: '',
     status: 'active',
     imageUrls: ['', '', '', '', '', ''],
+    videoUrls: ['', ''],
     cnListingId: '',
     cnPrice: '',
     cnStock: '',
@@ -56,6 +58,7 @@ export default function EditProductPage() {
           categoryId: p.categoryId || '',
           status: p.status || 'active',
           imageUrls: imageUrlsToFormSlots(getProductImageUrls(p.images)),
+          videoUrls: videoUrlsToFormSlots(getProductVideoUrls(p.videos)),
         }))
         if (p.listings) {
           p.listings.forEach((l: { id: string; region: string; price: number; stock: number; isActive: boolean }) => {
@@ -113,6 +116,7 @@ export default function EditProductPage() {
         categoryId: form.categoryId || undefined,
         status: form.status || undefined,
         images: buildProductImagesPayload(form.imageUrls, form.nameCn, form.nameEn),
+        videos: buildProductVideosPayload(form.videoUrls),
       })
       if (form.cnListingId) {
         await api.admin.products.updateListing(form.cnListingId, {
@@ -213,7 +217,12 @@ export default function EditProductPage() {
           nameEn={form.nameEn}
         />
 
-        <AdminFormSection title="国内站 (CN)">
+        <ProductVideoFields
+          urls={form.videoUrls}
+          onChange={(videoUrls) => setForm((f) => ({ ...f, videoUrls }))}
+        />
+
+        <AdminFormSection title="大陆销售（人民币，微信 / 支付宝）">
           <div className="grid gap-4 sm:grid-cols-3">
             <div>
               <label className={label}>价格 (元)</label>
@@ -237,7 +246,7 @@ export default function EditProductPage() {
           </div>
         </AdminFormSection>
 
-        <AdminFormSection title="海外站 (OVERSEAS)">
+        <AdminFormSection title="海外销售（美元，海外账户）">
           <div className="grid gap-4 sm:grid-cols-3">
             <div>
               <label className={label}>价格 (美元)</label>

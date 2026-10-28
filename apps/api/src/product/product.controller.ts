@@ -1,7 +1,5 @@
 import { Controller, Get, Param, Query } from '@nestjs/common'
 import { ProductService } from './product.service'
-import { OptionalJwtAuthGuard, CurrentUser } from '../common/guards'
-import { UseGuards } from '@nestjs/common'
 import type { ProductListResponse } from '@web3-mall/shared'
 
 @Controller('products')
@@ -31,9 +29,8 @@ export class ProductController {
   }
 
   @Get(':id')
-  @UseGuards(OptionalJwtAuthGuard)
-  async get(@Param('id') id: string, @CurrentUser() user?: { region: string }) {
-    const region = user?.region ?? 'CN'
-    return this.product.getProduct(BigInt(id), region)
+  async get(@Param('id') id: string, @Query('region') region?: string) {
+    const market = region === 'OVERSEAS' ? 'OVERSEAS' : 'CN'
+    return this.product.getProduct(BigInt(id), market)
   }
 }

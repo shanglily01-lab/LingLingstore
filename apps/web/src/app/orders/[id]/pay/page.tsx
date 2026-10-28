@@ -127,7 +127,7 @@ export default function OrderPayPage() {
         </p>
         <p className="mt-2 text-sm text-amber-700">请在 {countdown} 内完成支付</p>
         <p className="mt-1 text-xs text-on-surface-variant">
-          支付方式：{order.paymentChannel}
+          支付方式：{order.paymentChannel === 'wechat' ? '微信支付' : order.paymentChannel === 'alipay' ? '支付宝' : order.paymentChannel === 'overseas' ? '海外账户' : order.paymentChannel}
         </p>
       </div>
 

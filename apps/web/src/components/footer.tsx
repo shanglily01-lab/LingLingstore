@@ -59,12 +59,14 @@ export function Footer() {
           ))}
           <div>
             <h3 className="text-sm font-bold">{BRAND_NAME}</h3>
-            <p className="mt-3 text-sm leading-relaxed text-[#ddd]">全球直采，正品保障，支持法币支付与跨境配送。</p>
+            <p className="mt-3 text-sm leading-relaxed text-[#ddd]">
+              跨境精选商城。商品全球直采，国内人民币、海外美元分别计价，签收后可按订单申请售后。
+            </p>
           </div>
         </div>
       </div>
       <div className="bg-[#131921] py-6 text-center text-xs text-[#ddd]">
-        © 2026 {BRAND_NAME}. 全球直采，品质保证。
+        © 2026 {BRAND_NAME}. 全球直采，正品入仓，跨境配送。
       </div>
     </footer>
   )

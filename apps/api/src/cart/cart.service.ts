@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import { RedisService } from '../redis/redis.service'
 import { PrismaService } from '../common/prisma/prisma.service'
 import type { CartItemData, CartResponse } from '@web3-mall/shared'
@@ -32,9 +32,22 @@ export class CartService {
     const raw = await this.redis.getClient().get(this.cartKey(userId))
     const items: { listingId: string; quantity: number }[] = raw ? JSON.parse(raw) : []
 
-    const existing = items.find((i) => i.listingId === listingId)
-    if (existing) {
-      existing.quantity += quantity
+    const listing = await this.prisma.productListing.findUnique({ where: { id: BigInt(listingId) } })
+    if (!listing || !listing.isActive) {
+      throw new BadRequestException('商品不存在或未上架')
+    }
+
+    if (items.length > 0) {
+      const existing = await this.enrichItems(items)
+      const currentRegion = existing[0]?.region
+      if (currentRegion && currentRegion !== listing.region) {
+        throw new BadRequestException('大陆商品和海外商品要分开下单，请先清空购物车')
+      }
+    }
+
+    const existingItem = items.find((i) => i.listingId === listingId)
+    if (existingItem) {
+      existingItem.quantity += quantity
     } else {
       items.push({ listingId, quantity })
     }

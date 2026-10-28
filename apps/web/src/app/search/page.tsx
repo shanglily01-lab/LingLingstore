@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { api } from '@/lib/api'
-import { useAuth } from '@/lib/auth-context'
+import { useSalesMarket } from '@/lib/sales-market'
 import { PageShell } from '@/components/page-shell'
 import { PageHeader } from '@/components/page-header'
 import { ProductCard } from '@/components/product-card'
@@ -14,8 +14,8 @@ import type { ProductData } from '@web3-mall/shared'
 function SearchResults() {
   const searchParams = useSearchParams()
   const q = searchParams.get('q') ?? ''
-  const { user } = useAuth()
-  const region = user?.region || 'CN'
+  const { market } = useSalesMarket()
+  const region = market
   const [products, setProducts] = useState<ProductData[]>([])
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
