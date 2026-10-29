@@ -293,6 +293,12 @@ async function createCategory(nameCn: string, nameEn: string, sort: number, prod
 }
 
 async function main() {
+  if (process.env.SEED_ALLOW_WIPE !== '1') {
+    console.error('已拒绝执行：这个脚本会清空商品、订单、用户，以及已上传的商品记录。')
+    console.error('线上更新不要运行 prisma db seed。只有空的开发库才设置 SEED_ALLOW_WIPE=1。')
+    process.exit(1)
+  }
+
   console.log('🌱 开始创建海量种子数据...')
   console.log('')
 

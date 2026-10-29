@@ -18,7 +18,7 @@ const FEATURES = [
   },
   {
     title: '正品入仓',
-    desc: '到仓核对后再上架。商品详情可查看多张图片，方便确认外观与规格。',
+    desc: '到仓核对后再上架。列表里可以直接看到全部图片和短视频。',
     Icon: BadgeCheck,
   },
   {
@@ -134,7 +134,7 @@ export default function HomePage() {
           ) : featuredProducts.length === 0 ? (
             <p className="py-10 text-center text-sm text-on-surface-variant">这个站点暂时没有在售商品</p>
           ) : (
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               {featuredProducts.map((product) => (
                 <ProductCard
                   key={product.id}

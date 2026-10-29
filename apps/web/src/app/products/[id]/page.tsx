@@ -9,7 +9,6 @@ import { useSalesMarket } from '@/lib/sales-market'
 import toast from 'react-hot-toast'
 import { PageShell } from '@/components/page-shell'
 import { ProductGallery } from '@/components/product-gallery'
-import { getProductVideoUrls } from '@/lib/product-video'
 import { LoadingSpinner } from '@/components/loading-spinner'
 import { btnPrimary, btnSecondary, link, price } from '@/components/ui/stitch'
 
@@ -82,15 +81,7 @@ export default function ProductDetailPage() {
 
       <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="rounded-sm bg-white p-3 md:p-4">
-          <ProductGallery images={product.images} alt={displayName || ''} />
-          {getProductVideoUrls(product.videos).length > 0 && (
-            <div className="mt-4 space-y-3">
-              <h2 className="text-sm font-medium text-on-surface">商品视频</h2>
-              {getProductVideoUrls(product.videos).map((url) => (
-                <video key={url} src={url} controls playsInline className="max-h-80 w-full bg-black" />
-              ))}
-            </div>
-          )}
+          <ProductGallery images={product.images} videos={product.videos} alt={displayName || ''} />
           <h1 className="mt-4 text-xl font-medium text-on-surface md:text-2xl">{displayName}</h1>
           <p className="mt-3 text-sm leading-relaxed text-on-surface">{region === 'CN' ? product.descriptionCn : product.descriptionEn}</p>
         </div>
