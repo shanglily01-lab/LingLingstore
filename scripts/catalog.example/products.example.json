@@ -1,0 +1,17 @@
+[
+  {
+    "nameCn": "示例筹码套装",
+    "nameEn": "Sample chip set",
+    "category": "德州扑克",
+    "categoryEn": "Texas Hold'em",
+    "spec": "500 片，含庄码",
+    "specEn": "500 chips with dealer button",
+    "priceCny": 128,
+    "stock": 20,
+    "sku": "SAMPLE-500",
+    "sellCn": true,
+    "sellUs": true,
+    "images": ["chips/1.jpg", "chips/2.jpg"],
+    "videos": ["chips/intro.mp4"]
+  }
+]
